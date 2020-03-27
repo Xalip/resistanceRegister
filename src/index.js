@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import LandingPage from './landing_page/landing_page';
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
 
@@ -20,7 +21,7 @@ firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <LandingPage />
   </React.StrictMode>,
   document.getElementById('root')
 );
