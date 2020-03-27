@@ -1,0 +1,18 @@
+[
+    {
+        "code": "POSITIVE",
+        "description": "Test has been positive"
+    },
+    {
+        "code": "NEGATIVE",
+        "description": "Test has been negative"
+    },
+    {
+        "code": "NOTBEENTESTED",
+        "description": "User has not been tested"
+    },
+    {
+        "code": "RECOVERED",
+        "description": "User has been recovered"
+    }
+]
