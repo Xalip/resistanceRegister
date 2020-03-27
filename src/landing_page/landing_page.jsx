@@ -9,7 +9,7 @@ function LandingPage() {
                 <div className="title">esistanceRegister</div>
             </header>
             <div className="maingrid">
-            
+
             </div>
         </div>
     );

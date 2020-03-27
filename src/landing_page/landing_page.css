@@ -27,7 +27,12 @@
         }
         
         .title:before {
-            width: 10px;
-            height: 10px;
+            width: 10%;
+            height: 10%;
             content: url(../shared/img/logo.png);
+        }
+        
+        .langu {
+            justify-self: right;
+            color: white;
         }
