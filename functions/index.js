@@ -36,7 +36,7 @@ app.post('/createUser', async (req, res) => {
                 number: 8
             }
         })
-    res.send(response);
+    res.send("success");
 });
 
 app.get('/downloadxml', function (req, res) {
