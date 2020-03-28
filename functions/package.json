@@ -11,7 +11,7 @@
     "deploy:only:backend": "firebase deploy --only functions",
     "deploy:only:frontend": "npm run build:frontend && firebase deploy --only hosting",
     "logs": "firebase functions:log",
-    "deploy:env": "firebase functions:config:set backend='$(cat env.json)'",
+    "deploy:env": "firebase functions:config:set backend='$(cat ./bin/env.json)'",
     "local:env": "firebase functions:config:get > .runtimeconfig.json"
   },
   "engines": {
