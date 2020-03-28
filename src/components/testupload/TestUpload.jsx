@@ -36,7 +36,7 @@ class TestUpload extends Component {
                             <div className="previewImage">
 
                                 {this.state.image ?
-                                    <img src={this.state.image} style={{ height: "500px" }} className="img-fluid" alt="Responsive image" /> :
+                                    <img src={this.state.image} style={{ height: "500px" }} className="img-fluid" alt="" /> :
 
                                     (this.state.imageLoadingProgressEnabled &&
                                         <div class="text-center">
@@ -56,7 +56,7 @@ class TestUpload extends Component {
                                 onChange={this.handleSelectionChange}
                                 id="resultSelect" >
                                 {this.state.resultOptions.map(option => (
-                                    <option value={option.value}>{option.display}</option>
+                                    <option value={option.value} key={option.value}>{option.display}</option>
                                 ))}
                             </select>
                         </div>
