@@ -9,6 +9,10 @@ import * as mockups from "./OverviewMocks.json";
 class Overview extends React.Component {
   constructor(props) {
     super(props);
+    // FIXME:
+    window.overview = this
+
+    this.testFunktion = this.testFunktion.bind(this)
   }
 
   componentDidMount() {
@@ -21,6 +25,11 @@ class Overview extends React.Component {
     var searchControl = geosearch().addTo(mymap);
   }
 
+  testFunktion(value) {
+    console.log(localStorage.getItem("loggedIn"));
+    return localStorage.getItem("loggedIn") == "true"
+  }
+
   render() {
     return (
       <div className="oOverview">
@@ -29,6 +38,7 @@ class Overview extends React.Component {
             <div className="oEdit">
               <FontAwesomeIcon size="lg" icon={faEdit} />
             </div>
+            <div>{this.testFunktion() === true ? "Peter" : "Penis"} Müller </div>
             <div>
               {mockups.contact.firstName} &nbsp; {mockups.contact.lastName}
             </div>
@@ -42,7 +52,7 @@ class Overview extends React.Component {
         </div>
         <div className="oMap" id="oMap"></div>
       </div>
-    );
+    )
   }
 }
 
