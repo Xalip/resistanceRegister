@@ -21,7 +21,6 @@ class Overview extends React.Component {
 
   render() {
     return (
-      <div className="imitateHeader">
         <div className="oOverview">
           <div className="oCards">
             <div className="oCard" id="oContact">
@@ -39,7 +38,6 @@ class Overview extends React.Component {
           </div>
           <div className="oMap" id="oMap"></div>
         </div>
-      </div>
     );
   }
 }

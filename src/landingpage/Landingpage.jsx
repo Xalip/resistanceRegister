@@ -9,7 +9,8 @@ function LandingPage() {
         <div className="title">esistanceRegister</div>
       </header>
       <div className="maingrid">
-        <Link to="/overview">Overview</Link>
+        Hier folgen Informationen zu diesem Projekt. Eine Verzweigung auf die
+        Übersichtsseite findet Ihr hier: <Link to="/overview">Overview</Link>
       </div>
     </div>
   );
