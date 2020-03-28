@@ -10,7 +10,7 @@ const app = express();
 //Router files
 const userRouter = require("./router/user.js");
 
-const { loadFirebaseCrediantials } = require("./helper");
+const { loadFirebaseCrediantials } = require("./util/helper");
 
 admin.initializeApp(loadFirebaseCrediantials());
 
