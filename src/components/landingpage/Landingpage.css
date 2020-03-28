@@ -31,7 +31,7 @@
 }
 
 .title:before {
-  content: url(../shared/img/logo.png);
+  content: url(../../shared/img/logo.png);
 }
 
 .startNow {

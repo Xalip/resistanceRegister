@@ -1,11 +1,3 @@
-.form {
-    width: 600px;
-    height: 100%;
-    margin: auto;
-    padding: 12px;
-}
-
-.form-footer > div {
-    display: flex;
-    flex-direction: row-reverse;
+.App .wrapper {
+    margin-top: 100px;
 }
