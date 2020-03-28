@@ -36,7 +36,13 @@ export default function Navbar(props) {
               Upload
             </Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/personalData">
+              PersonalData
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
-)}
+  )
+}

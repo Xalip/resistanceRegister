@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import LandingPage from "./landingpage/Landingpage";
+import Form from "./components/personalize/Form";
 
 import Navbar from "./components/layout/Navbar"
 import SignUp from "./components/auth/SignUp"
@@ -21,6 +23,7 @@ function App() {
                         <Route exact path="/signIn" component={SignIn}></Route>
                         <Route exact path="/overview" component={Overview}></Route>
                         <Route exact path="/test/upload" component={TestUpload}></Route>
+                        <Route exact path="/personalData" component={Form}/>
                     </Switch>
                 </div>
             </div>

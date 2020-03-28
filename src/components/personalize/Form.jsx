@@ -6,10 +6,14 @@ class Form extends React.Component {
     constructor(props) {
         super(props);
 
+        // TODO: flag-binding not working yet
+        // TODO: mutation of value in dynamic fields not possible -> probalby bindin stuff
+        // TODO: occupation selection -> not selected required value should be cleared
+
         this.state = {
             firstName: "Hans",
             lastName: "Muster",
-            dateOfBirth: "01/01/1990",
+            dateOfBirth: "2012-04-23",
             email: "hans.muster@hotmail.com",
             phone: "11111111",
             zip: "1000",
@@ -19,9 +23,9 @@ class Form extends React.Component {
             job: "Krankenpfleger",
             company: "Krankenhaus Altstetten",
             occupationDescription: "Arbeitssuchend",
-            publishData: true,
-            iWannaHelp: true
-          };
+            iWannaHelp: true,
+            publishData: true
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,8 +39,6 @@ class Form extends React.Component {
     }
 
     handleSubmit(event) {
-        // event.preventDefault();
-        alert('A name was submitted: ' + this.state.firstName + " " + this.state.lastName);
     }
 
     render() {
@@ -117,16 +119,18 @@ class Form extends React.Component {
     }
 
     getOccupationField() {
-        return <div class="form-group">
-            <label for="occupation">Tätigkeit</label>
-            <select class="form-control" id="occupation" value={this.state.occupation} onChange={this.handleSelectOccupation}>
-                <option value="student">Schüler(in) / Student(in)</option>
-                <option value="employed">Berufstätig</option>
-                <option value="self-employed">Selbständig</option>
-                <option value="retired">Ruhestand</option>
-                <option value="other">Andere</option>
-            </select>
-            <div id="occupationContainer">{this.getStudentPanel()}</div>
+        return <div>
+            <div class="form-group">
+                <label for="occupation">Tätigkeit</label>
+                <select class="form-control" id="occupation" value={this.state.occupation} onChange={this.handleSelectOccupation}>
+                    <option value="student">Schüler(in) / Student(in)</option>
+                    <option value="employed">Berufstätig</option>
+                    <option value="self-employed">Selbständig</option>
+                    <option value="retired">Ruhestand</option>
+                    <option value="other">Andere</option>
+                </select>
+            </div>
+            <div id="occupationContainer" >{this.getStudentPanel()}</div>
         </div>
     }
 
@@ -139,7 +143,7 @@ class Form extends React.Component {
             dynamicPanel = this.getStudentPanel();
         } else if (selected == "self-employed" || selected == "employed") {
             dynamicPanel = this.getEmployedPanel();
-        } else if (selected == "other"){
+        } else if (selected == "other") {
             dynamicPanel = this.getOtherPanel();
         }
         ReactDOM.render(
@@ -156,7 +160,7 @@ class Form extends React.Component {
     }
 
     getEmployedPanel() {
-        return <div><div className="form-group" >
+        return <div className="form-group"><div className="form-group" >
             <label for="job">Beruf</label>
             <input type="text" class="form-control" id="job" required value={this.state.job} onChange={this.handleChange}></input>
         </div>
@@ -191,7 +195,7 @@ class Form extends React.Component {
 
     getPublishMyData() {
         return <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="publishData" required value={this.state.publishData} onChange={this.handleChange}/>
+            <input class="form-check-input" type="checkbox" id="publishData" value={this.state.publishData} onChange={this.handleChange} />
             <label class="form-check-label" for="publishData">Daten anonymisiert veröffentlichen</label>
         </div>
     }
