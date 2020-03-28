@@ -5,9 +5,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
-import Overview from "./overview/Overview";
-import LandingPage from "./landingpage/Landingpage";
-import SignUp from "./auth/SignUp";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,

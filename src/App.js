@@ -1,11 +1,10 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import LandingPage from "./landingpage/Landingpage";
-import Overview from "./overview/Overview";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar"
+import LandingPage from "./landingpage/Landingpage";
+import Overview from "./overview/Overview";
 import TestUpload from "./components/testupload/TestUpload"
 import SignUp from "./auth/SignUp"
 
