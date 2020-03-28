@@ -19,7 +19,7 @@ async function createUser(data) {
             id: user.id
         };
     } catch (err) {
-        console.error(err);
+        console.error(new Error(err));
         return {
             status: 500,
             err: err
