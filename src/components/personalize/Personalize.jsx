@@ -1,6 +1,7 @@
 import React from 'react';
+import './Personalize.css';
 
-class Form extends React.Component {
+class Personalize extends React.Component {
 
     constructor(props) {
         super(props);
@@ -224,4 +225,4 @@ class Form extends React.Component {
 
 }
 
-export default Form;
+export default Personalize;
