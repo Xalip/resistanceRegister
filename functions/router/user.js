@@ -6,8 +6,8 @@ const user = require("../auth/user");
 
 router.post("/google", async (req, res) => {
     console.info("Incoming request for creating Google User with the following data");
-    const userData = JSON.parse(Buffer.from(req.body).toString("ascii"));
-    console.info(userData);
+    const userData = req.body;
+    console.log(userData);
     const response = await user.createUser({
         firstname: userData.givenName,
         lastname: userData.familyName,
@@ -20,8 +20,8 @@ router.post("/google", async (req, res) => {
 
 router.post("/email", async (req, res) => {
     console.info("Incoming request for creating Email User with the following data");
-    const userData = JSON.parse(Buffer.from(req.body).toString("ascii"));
-    console.info(userData);
+    const userData = req.body;
+    console.log(userData);
     const response = await user.createUser({
         firstname: null,
         lastname: null,

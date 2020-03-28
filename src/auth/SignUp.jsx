@@ -6,7 +6,6 @@ import axios from "axios";
 const regExEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
 
 const responseGoogle = async responseGoogleLogin => {
-  console.log(responseGoogleLogin);
   if (responseGoogleLogin.error) {
     // do nothing, login didnt'work
   } else {
@@ -20,28 +19,26 @@ const responseGoogle = async responseGoogleLogin => {
 };
 //FIXME: hash password!
 async function emailPasswordSignUp(event) {
-
+  event.preventDefault();
   const email = document.getElementById("inputEmail").value;
   const password = document.getElementById("inputPassword").value;
   const passwordRepeat = document.getElementById("inputPasswordRepeat").value;
-  console.log(email);
-  const data = {
-    givenName: null,
-    familyName: null,
-    email: email,
-    password: password
-  }
-
-  console.log(data);
-
   if (password === passwordRepeat) {
-    const responseCreateUser = await axios.post(
-      `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/email`,
-      data
-    );
-    console.log("Created an user manual!");
+    try {
+      const responseCreateUser = await axios.post(
+        `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/email`,
+        {
+          givenName: null,
+          familyName: null,
+          email: email,
+          password: password
+        }
+      );
+      console.log(responseCreateUser);
+    } catch (err) {
+      console.error(err);
+    }
   }
-  event.preventDefault();
 };
 
 function SignUp() {
