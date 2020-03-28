@@ -22,7 +22,7 @@ firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
     <React.StrictMode>
-        <SignUp />
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );

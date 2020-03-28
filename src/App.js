@@ -4,19 +4,21 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import LandingPage from "./landingpage/Landingpage";
 
+import Navbar from "./components/layout/Navbar"
+import SignUp from "./auth/SignUp"
+
 function App() {
-  return (
-    <Router>
-      <div>
-        <header className="header">
-          Header
-        </header>
-        <Switch>
-          <Route exact path="/" component={LandingPage}></Route>
-        </Switch>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <Navbar />
+                <Switch>
+                    <Route exact path="/"></Route>
+                    <Route exact path="/signUp" component={SignUp}></Route>
+                </Switch>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
