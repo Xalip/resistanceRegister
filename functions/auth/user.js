@@ -1,20 +1,20 @@
 const admin = require("firebase-admin");
 
 async function checkGoogleUserExists(accountID) {
-    const db = admin.firestore().collection("users");
+    const collectionUser = admin.firestore().collection("users");
     try {
-        const user = await db.doc(accountID).get();
-        return user.exists;
+        const user = await collectionUser.where("googleId", "==", accountID).get();
+        return { doesUserExist: !user.empty };
     } catch (err) {
         console.error(new Error(err));
-        return "something went wrong"
+        return { doesUserExist: null, err: err }
     }
 }
 
 async function createUser(data) {
-    const db = admin.firestore().collection("users");
+    const collectionUser = admin.firestore().collection("users");
     try {
-        const user = await db.add(data);
+        const user = await collectionUser.add(data);
         return {
             status: 201,
             id: user.id
