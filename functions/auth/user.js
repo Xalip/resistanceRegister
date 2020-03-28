@@ -6,6 +6,7 @@ async function checkGoogleUserExists(accountID) {
         const user = await db.doc(accountID).get();
         return user.exists;
     } catch (err) {
+        console.error(new Error(err));
         return "something went wrong"
     }
 }

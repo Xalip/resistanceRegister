@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
-import LandingPage from './landing_page/landing_page';
-import SignUp from './auth/SignUp';
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
+import Overview from "./overview/Overview";
+import LandingPage from "./landingpage/Landingpage";
+import SignUp from "./auth/SignUp";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -22,7 +23,7 @@ firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
     <React.StrictMode>
-        <SignUp />
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );
