@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import LandingPage from "./landingpage/Landingpage";
 
 import Navbar from "./components/layout/Navbar"
+import TestUpload from "./components/testupload/TestUpload"
 import SignUp from "./auth/SignUp"
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                 <Switch>
                     <Route exact path="/"></Route>
                     <Route exact path="/signUp" component={SignUp}></Route>
+                    <Route exact path="/test/upload" component={TestUpload}></Route>
                 </Switch>
             </div>
         </Router>
