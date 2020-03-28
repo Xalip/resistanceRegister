@@ -1,5 +1,6 @@
 import React from "react";
 import "./Landingpage.css";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
@@ -7,7 +8,9 @@ function LandingPage() {
       <header>
         <div className="title">esistanceRegister</div>
       </header>
-      <div className="maingrid"></div>
+      <div className="maingrid">
+        <Link to="/overview">Overview</Link>
+      </div>
     </div>
   );
 }
