@@ -1,8 +1,19 @@
 .oOverview {
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 600px;
+  grid-template-rows: 600px auto;
   justify-content: center;
+  grid-auto-flow: row;
+}
+
+@media only screen and (max-width: 600px) {
+  .oOverview {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 600px 400px;
+    justify-content: center;
+    grid-auto-flow: column;
+  }
 }
 
 .oMap {
