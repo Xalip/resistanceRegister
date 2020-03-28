@@ -15,7 +15,6 @@
 }
 
 .content header {
-  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +22,10 @@
   font-size: 4vw;
   color: white;
   text-shadow: -1px 0 #6764af, 0 1px #6764af, 1px 0 #6764af, 0 -1px #6764af;
+}
+
+.title {
+  margin-top: 175px;
 }
 
 .title:before {
