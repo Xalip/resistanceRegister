@@ -3,10 +3,10 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar"
+import SignUp from "./components/auth/SignUp"
 import LandingPage from "./landingpage/Landingpage";
 import Overview from "./overview/Overview";
 import TestUpload from "./components/testupload/TestUpload"
-import SignUp from "./auth/SignUp"
 
 function App() {
     return (
