@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar"
 import SignUp from "./components/auth/SignUp"
+import SignIn from "./components/auth/SignIn"
 import LandingPage from "./components/landingpage/Landingpage";
 import Overview from "./components/overview/Overview";
 import TestUpload from "./components/testupload/TestUpload"
@@ -17,6 +18,7 @@ function App() {
                     <Switch >
                         <Route exact path="/" component={LandingPage}></Route>
                         <Route exact path="/signUp" component={SignUp}></Route>
+                        <Route exact path="/signIn" component={SignIn}></Route>
                         <Route exact path="/overview" component={Overview}></Route>
                         <Route exact path="/test/upload" component={TestUpload}></Route>
                     </Switch>
