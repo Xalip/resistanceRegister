@@ -1,35 +1,35 @@
 'use strict'
 
 const admin = require("firebase-admin");
+const functions = require('firebase-functions');
 
 function loadFirebaseCrediantials() {
     return {
         credential: admin.credential.cert(loadServiceAccount()),
-        apiKey: process.env.APIKEY,
-        authDomain: process.env.AUTHDOMAIN,
-        databaseURL: process.env.DATABASEURL,
-        projectId: process.env.PROJECTID,
-        storageBucket: process.env.STORAGEBUCKET,
-        messagingSenderId: process.env.MESSAGINGSENDERID,
-        appId: process.env.APPID
+        apiKey: functions.config().backend.apikey,
+        authDomain: functions.config().backend.authdomain,
+        databaseURL: functions.config().backend.databaseurl,
+        projectId: functions.config().backend.projectid,
+        storageBucket: functions.config().backend.storagebucket,
+        messagingSenderId: functions.config().backend.messagingsenderid,
+        appId: functions.config().backend.appid
     }
 }
 
 function loadServiceAccount() {
     return {
-        type: process.env.TYPE,
-        project_id: process.env.PROJECT_ID,
-        private_key_id: process.env.PRIVATE_KEY_ID,
-        private_key: new Buffer(process.env.PRIVATE_KEY, 'base64').toString("ascii"),
-        client_email: process.env.CLIENT_EMAIL,
-        client_id: process.env.CLIENT_ID,
-        auth_uri: process.env.AUTH_URI,
-        token_uri: process.env.TOKEN_URI,
-        auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
-        client_x509_cert_url: process.env.CLIENT_X509_CERT_URL
+        type: functions.config().backend.type,
+        project_id: functions.config().backend.project_id,
+        private_key_id: functions.config().backend.private_key_id,
+        private_key: Buffer.from(functions.config().backend.private_key, 'base64').toString("ascii"),
+        client_email: functions.config().backend.client_email,
+        client_id: functions.config().backend.client_id,
+        auth_uri: functions.config().backend.auth_uri,
+        token_uri: functions.config().backend.token_uri,
+        auth_provider_x509_cert_url: functions.config().backend.auth_provider_x509_cert_url,
+        client_x509_cert_url: functions.config().backend.client_x509_cert_url
     }
 }
-
 module.exports = {
     loadFirebaseCrediantials
 }

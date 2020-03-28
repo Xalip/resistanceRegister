@@ -12,7 +12,7 @@ const responseGoogle = async responseGoogleLogin => {
   } else {
     const userData = responseGoogleLogin.profileObj;
     const responseCreateUser = await axios.post(
-      `http://localhost:5000/resistanceregister/us-central1/api/createUser`,
+      `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/google`,
       userData
     );
     console.log(responseCreateUser);
@@ -20,22 +20,28 @@ const responseGoogle = async responseGoogleLogin => {
 };
 //FIXME: hash password!
 async function emailPasswordSignUp(event) {
+
   const email = document.getElementById("inputEmail").value;
   const password = document.getElementById("inputPassword").value;
   const passwordRepeat = document.getElementById("inputPasswordRepeat").value;
+  console.log(email);
+  const data = {
+    givenName: null,
+    familyName: null,
+    email: email,
+    password: password
+  }
+
+  console.log(data);
+
   if (password === passwordRepeat) {
     const responseCreateUser = await axios.post(
-      `http://localhost:5001/resistanceregister/us-central1/api/createUser`,
-      {
-        givenName: null,
-        familyName: null,
-        email: email,
-        password: password
-      }
+      `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/email`,
+      data
     );
     console.log("Created an user manual!");
   }
-
+  event.preventDefault();
 };
 
 function SignUp() {
@@ -47,7 +53,7 @@ function SignUp() {
       <div className="maingrid">
         <form className="registerForm">
           <div className="form-group">
-            <label id="inputEmail">Email address</label>
+            <label>Email address</label>
             <input
               type="email"
               className="form-control"
@@ -59,7 +65,7 @@ function SignUp() {
             />
           </div>
           <div className="form-group">
-            <label id="inputPassword">Password</label>
+            <label>Password</label>
             <input
               type="password"
               className="form-control"
@@ -67,7 +73,7 @@ function SignUp() {
               placeholder="Password"
             />
             <div className="passwordRepeat">
-              <label id="inputPasswordRepeat">Repeat password</label>
+              <label>Repeat password</label>
               <input
                 type="password"
                 className="form-control"
@@ -111,7 +117,7 @@ function SignUp() {
           <div className="login-method-separator">OR</div>
           <div>
             <GoogleLogin
-              clientId="497756564991-ag6l7ra1tfhlk20i7nc0u27qomnld845.apps.googleusercontent.com"
+              clientId="497756564991-i12ocg176ekvvvm4dbhigj1otst8com6.apps.googleusercontent.com"
               buttonText="Continue with Google"
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
