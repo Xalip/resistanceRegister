@@ -30,7 +30,7 @@
         .title:before {
             width: 10%;
             height: 10%;
-            content: url(../shared/img/logo.png);
+            content: url(../../shared/img/logo.png);
         }
         
         .langu {

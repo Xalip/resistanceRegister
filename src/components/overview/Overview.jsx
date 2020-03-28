@@ -1,7 +1,7 @@
 import React from "react";
 import "./Overview.css";
 import * as L from "leaflet";
-import "../../node_modules/leaflet/dist/leaflet.css";
+import "../../../node_modules/leaflet/dist/leaflet.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
