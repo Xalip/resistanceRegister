@@ -20,10 +20,19 @@ class Form extends React.Component {
         return (
             <div className="form bg-light">
                 <h2>Personalien</h2>
-                <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
-                <hr />
-                <form>{this.getOccupationFields().map(field => <div className="form-group">{field}</div>)}</form>
-            </div>
+                <div className="form-content">
+                    <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
+                    <hr />
+                    <form>{this.getOccupationFields().map(field => <div className="form-group">{field}</div>)}</form>
+                    <hr />
+                    <form>{this.getOccupationFields().map(field => <div className="form-group">{field}</div>)}</form>
+                </div>
+                <footer className="form-footer">
+                    <div className="container">
+                        <button className="btn btn-primary">Speichern</button>
+                    </div>
+                </footer>
+            </div >
         );
     }
 
@@ -66,7 +75,7 @@ class Form extends React.Component {
 
     getPhone() {
         return <div>
-            <label for="phone">Telefon</label>
+            <label for="phone">Telefon <span class="text-muted">(Optional)</span></label>
             <input type="tel" class="form-control" id="phone"></input>
         </div>
     }
