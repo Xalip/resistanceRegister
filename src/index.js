@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
-import LandingPage from './landingpage/landingpage';
-import SignUp from './auth/SignUp';
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
 
