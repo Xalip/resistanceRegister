@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 export default function Navbar(props) {
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="/">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <a className="navbar-brand" href="/#">
         ResistanceRegister
       </a>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
@@ -16,23 +16,27 @@ export default function Navbar(props) {
         aria-expanded="false"
         aria-label="ResistenceRegister"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <Link class="nav-link" to="/signUp">
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link className="nav-link" to="/signUp">
               SignUp
             </Link>
           </li>
-          <li class="nav-item">
-            <Link class="nav-link" to="/signIn">
+          <li className="nav-item">
+            <Link className="nav-link" to="/signIn">
               SignIn
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/test/upload">
+              Upload
             </Link>
           </li>
         </ul>
       </div>
     </nav>
-  );
-}
+)}

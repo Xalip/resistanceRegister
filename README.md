@@ -22,6 +22,7 @@ At first the idea is to build a responsive website to register yourself and scan
 - rename both files to `.env`
 - run `npm install -g firebase-tools`
 - run `firebase login` and follow the shown instructions
+- run `npm run local:env` in functions folder
 - run `npm i` in the root folder
 - run `npm i` in the functions folder
 ##### start dev mode
