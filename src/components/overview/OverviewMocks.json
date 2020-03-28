@@ -1,0 +1,15 @@
+{
+  "contact": {
+    "firstName": "Peter",
+    "lastName": "Müller",
+    "postcode": "76137",
+    "city": "Karlsruhe",
+    "employment": "Ninja",
+    "placeOfEmployment": "Bruchsal"
+  },
+  "result": {
+    "name": "Bosch Covid19 Schnelltest",
+    "date": "20200328",
+    "status": "negativ"
+  }
+}
