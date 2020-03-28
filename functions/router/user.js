@@ -67,8 +67,4 @@ router.post("/uploadResult", async (req, res) => {
     }
 });
 
-    const checkResult = await user.checkGoogleUserExists(req.query.id);
-    return res.status(typeof checkResult === "string" ? 200 : 500).send(typeof checkResult === "string" ? "something went wrong" : checkResult);
-})
-
 module.exports = router;
