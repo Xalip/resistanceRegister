@@ -1,0 +1,35 @@
+.content {
+  display: grid;
+  grid-gap: 10px;
+  margin-top: 30px;
+  justify-content: center;
+  grid-template-columns: [main-start] 60% [main-end];
+  grid-template-rows: 100px [main-start] 1000px [main-end] 400px;
+}
+
+.maingrid {
+  margin-top: 175px;
+  background-color: white;
+  grid-area: main;
+  border-radius: 10px;
+}
+
+.content header {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 4vw;
+  color: white;
+  text-shadow: -1px 0 #6764af, 0 1px #6764af, 1px 0 #6764af, 0 -1px #6764af;
+}
+
+.title:before {
+  content: url(../shared/img/logo.png);
+}
+
+.langu {
+  justify-self: right;
+  color: white;
+}
