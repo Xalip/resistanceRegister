@@ -11,7 +11,7 @@ class Overview extends React.Component {
   }
 
   componentDidMount() {
-    var mymap = L.map("oMap").setView([60, -0.09], 13);
+    var mymap = L.map("oMap").setView([60, -0.09], 4);
 
     L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
       attribution:
