@@ -4,6 +4,7 @@ class Form extends React.Component {
 
     constructor() {
         super();
+
         this.state = {
             firstName: "Hans",
             lastName: "Muster",
@@ -17,61 +18,70 @@ class Form extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>Personalien</h1>
-                <h2>Kontaktinformationen</h2>
-                <form>{this.getContactFields().map(field => <div className="formGroup">{field}</div>)}</form>
-                <div className="h-divider"></div>
-                <h2>Tätigkeit</h2>
-                <form>{this.getOccupationFields().map(field => <div className="formGroup">{field}</div>)}</form>
+            <div className="form bg-light">
+                <h2>Personalien</h2>
+                <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
+                <hr />
+                <form>{this.getOccupationFields().map(field => <div className="form-group">{field}</div>)}</form>
             </div>
         );
     }
 
     getContactFields() {
         return [
-            this.getFirstName(),
-            this.getLastName(),
-            this.getYearOfBirth(),
+            this.getName(),
+            this.getBirthDay(),
             this.getEmail(),
             this.getPhone(),
-            this.getZip(),
-            this.getCity()
+            this.getZipCity()
         ];
     }
 
-    getFirstName() {
-        return <div>
-            <label for="firstName">Vorname</label>
-            <input type="text" class="form-control" id="firstName"></input>
+    getName() {
+        return <div className="row">
+            <div className="col">
+                <label for="firstName">Vorname</label>
+                <input type="text" class="form-control" id="firstName"></input>
+            </div>
+            <div className="col">
+                <label for="lastName">Nachname</label>
+                <input type="text" class="form-control" id="lastName"></input>
+            </div>
         </div>
     }
 
-    getLastName() {
+    getBirthDay() {
         return <div>
-            <label for="lastName">Nachname</label>
-            <input type="text" class="form-control" id="lastName"></input>
+            <label for="birthday">Geburtsdatum</label>
+            <input type="date" class="form-control" id="birthday"></input>
         </div>
-    }
-
-    getYearOfBirth() {
-        return <div></div>;
     }
 
     getEmail() {
-        return <div></div>;
+        return <div>
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" readOnly></input>
+        </div>
     }
 
     getPhone() {
-        return <div></div>;
+        return <div>
+            <label for="phone">Telefon</label>
+            <input type="tel" class="form-control" id="phone"></input>
+        </div>
     }
 
-    getZip() {
-        return <div></div>;
-    }
-
-    getCity() {
-        return <div></div>;
+    getZipCity() {
+        return <div className="row">
+            <div className="col col-md-4">
+                <label for="zip">PLZ</label>
+                <input type="text" class="form-control" id="zip"></input>
+            </div>
+            <div className="col">
+                <label for="city">Ort</label>
+                <input type="text" class="form-control" id="city"></input>
+            </div>
+        </div>
     }
 
     getOccupationFields() {
