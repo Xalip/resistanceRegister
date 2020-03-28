@@ -15,12 +15,5 @@
         "location": "Kaiserslautern"
     },
     "iWantToHelp": true,
-    "publishProfile": false,
-    "covidTestResult": [
-        {
-            "timestamp": "2020-03-27T21:09:47.842Z",
-            "result": "POSITIVE",
-            "pictureID": "f8146857-a746-4ff9-a56c-d22390aebee7"
-        }
-    ]
+    "publishProfile": false
 }
