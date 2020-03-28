@@ -12,10 +12,11 @@
   background-color: white;
   grid-area: main;
   border-radius: 10px;
+  padding: 25px;
+  text-align: justify;
 }
 
 .content header {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,8 +26,19 @@
   text-shadow: -1px 0 #6764af, 0 1px #6764af, 1px 0 #6764af, 0 -1px #6764af;
 }
 
+.title {
+  margin-top: 175px;
+}
+
 .title:before {
   content: url(../shared/img/logo.png);
+}
+
+.startNow {
+  background-color: #6764af;
+  display: block;
+  width: 50%;
+  margin-top: 20px;
 }
 
 .langu {

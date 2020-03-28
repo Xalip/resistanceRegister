@@ -1,0 +1,62 @@
+.oOverview {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 600px auto;
+  justify-content: center;
+  grid-auto-flow: row;
+  margin-top: 100px;
+}
+
+@media only screen and (max-width: 600px) {
+  .oOverview {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 600px 400px;
+    justify-content: center;
+    grid-auto-flow: column;
+  }
+}
+
+.oMap {
+  height: 100%;
+  width: 90%;
+  justify-self: center;
+  margin: 10px;
+}
+
+.oCards {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 275px;
+  grid-row-gap: 10px;
+  margin: 15px;
+}
+
+.oCard {
+  border-style: solid;
+  border-radius: 5px;
+  border-color: white;
+  background-color: #fff8f8;
+  padding: 15px;
+}
+
+.oCard:hover {
+  background-color: #aad3df;
+  border-color: #aad3df;
+  color: white;
+  transform: scale(1.02);
+}
+
+.oEdit {
+  float: right;
+  font-size: 1em !important;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 2px solid white;
+  margin: 1em 0;
+  padding: 0;
+}

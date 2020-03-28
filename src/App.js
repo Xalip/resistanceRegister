@@ -4,9 +4,10 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import LandingPage from "./landingpage/Landingpage";
 import Form from "./components/personalize/Form";
+import Overview from "./overview/Overview";
 
-import Navbar from "./components/layout/Navbar"
-import SignUp from "./auth/SignUp"
+import Navbar from "./components/layout/Navbar";
+import SignUp from "./auth/SignUp";
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <div className="App">
         <Navbar />
         <Switch>
-          <Route exact path="/"></Route>
+          <Route exact path="/" component={LandingPage}></Route>
           <Route exact path="/signUp" component={SignUp}></Route>
+          <Route exact path="/overview" component={Overview}></Route>
           <Route exact path="/personalData" component={Form}/>
         </Switch>
       </div>
