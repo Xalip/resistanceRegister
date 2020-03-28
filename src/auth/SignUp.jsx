@@ -19,20 +19,13 @@ const responseGoogle = async responseGoogleLogin => {
   }
 };
 //FIXME: hash password!
-const emailPasswordSignUp = async oEvent => {
-  if (document.getElementById("inputEmail") !== null) {
-    const email = document.getElementById("inputEmail").value;
-    const password = document.getElementById("inputPassword").value;
-    const passwordRepeat = document.getElementById("inputPasswordRepeat").value;
-    // const email = "";
-    // const password = "";
-    // const passwordRepeat = "";
-    if (password !== passwordRepeat) {
-      return;
-    }
-
+async function emailPasswordSignUp(event) {
+  const email = document.getElementById("inputEmail").value;
+  const password = document.getElementById("inputPassword").value;
+  const passwordRepeat = document.getElementById("inputPasswordRepeat").value;
+  if (password === passwordRepeat) {
     const responseCreateUser = await axios.post(
-      `http://localhost:5000/resistanceregister/us-central1/api/createUser`,
+      `http://localhost:5001/resistanceregister/us-central1/api/createUser`,
       {
         givenName: null,
         familyName: null,
@@ -40,8 +33,9 @@ const emailPasswordSignUp = async oEvent => {
         password: password
       }
     );
-    console.log(responseCreateUser);
+    console.log("Created an user manual!");
   }
+
 };
 
 function SignUp() {
@@ -52,31 +46,31 @@ function SignUp() {
       </header>
       <div className="maingrid">
         <form className="registerForm">
-          <div class="form-group">
-            <label for="inputEmail">Email address</label>
+          <div className="form-group">
+            <label id="inputEmail">Email address</label>
             <input
               type="email"
-              class="form-control"
+              className="form-control"
               id="inputEmail"
               aria-describedby="emailHelp"
               placeholder="Enter email"
-              //required
-              // pattern={regExEmail}
+            //required
+            // pattern={regExEmail}
             />
           </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
+          <div className="form-group">
+            <label id="inputPassword">Password</label>
             <input
               type="password"
-              class="form-control"
+              className="form-control"
               id="inputPassword"
               placeholder="Password"
             />
             <div className="passwordRepeat">
-              <label for="inputPasswordRepeat">Repeat password</label>
+              <label id="inputPasswordRepeat">Repeat password</label>
               <input
                 type="password"
-                class="form-control"
+                className="form-control"
                 id="inputPasswordRepeat"
                 placeholder="Please enter password again"
               />
@@ -84,38 +78,37 @@ function SignUp() {
           </div>
 
           <p>
-            {" "}
-            Mit Ihrer Anmeldung bestätigen Sie, dass Sie unsere{" "}
+            {" "}With your registration you confirm that you have read and accepted our{" "}
             <a
               href="/legal"
               target="_blank"
               data-analytics-event="clickedSignUpTOSLink"
             >
-              Nutzungsbedingungen
+              terms of use
             </a>{" "}
-            und{" "}
+            and{" "}
             <a
               href="/privacy"
               target="_blank"
               data-analytics-event="clickedSignUpPrivacyLink"
             >
-              Datenschutzbestimmungen
+              privacy policy
             </a>{" "}
-            gelesen und akzeptiert haben.{" "}
+            .{" "}
           </p>
 
-          <div class="row">
-            <div class="col text-center">
+          <div className="row">
+            <div className="col text-center">
               <button
                 type="submit"
-                class="btn signupButton btn-primary"
+                className="btn signupButton btn-primary"
                 onClick={emailPasswordSignUp}
               >
                 Sign up
               </button>
             </div>
           </div>
-          <div class="login-method-separator">ODER</div>
+          <div className="login-method-separator">OR</div>
           <div>
             <GoogleLogin
               clientId="497756564991-ag6l7ra1tfhlk20i7nc0u27qomnld845.apps.googleusercontent.com"
