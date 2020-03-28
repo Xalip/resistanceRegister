@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .form {
     width: 600px;
     height: 100%;
@@ -9,8 +8,4 @@
 .form-footer > div {
     display: flex;
     flex-direction: row-reverse;
-=======
-.App .wrapper {
-    margin-top: 100px;
->>>>>>> personalize-new
 }
