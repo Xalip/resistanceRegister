@@ -18,7 +18,7 @@ At first the idea is to build a responsive website to register yourself and scan
 
 #### How to run the project
 - clone the develop branch
-- get the env files from discord, move `envFunctions` to the functions folder, move `envSrc` to the src folder
+- get the env files from discord, move `envFunctions` to the functions folder, move `envSrc` to the root folder
 - rename both files to `.env`
 - run `npm install -g firebase-tools`
 - run `firebase login` and follow the shown instructions

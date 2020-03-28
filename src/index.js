@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
-import App from "./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import * as firebase from 'firebase';
+import Overview from "./overview/Overview";
 import LandingPage from "./landingpage/Landingpage";
 import SignUp from "./auth/SignUp";
-import * as serviceWorker from "./serviceWorker";
-import * as firebase from "firebase";
-import Overview from "./overview/Overview";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -22,10 +22,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Overview />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
