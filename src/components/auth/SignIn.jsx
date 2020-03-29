@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { userContext, UserContextProvider } from './../../userContext'
+import { userContext } from './../../userContext'
 import axios from "axios"
 
 class SignIn extends Component {
@@ -30,6 +30,7 @@ class SignIn extends Component {
             );
             setLoggedIn()
         } catch (error) {
+            // TODO: user feedback in case login is not working
             console.error(new Error(error))
         }
     }
