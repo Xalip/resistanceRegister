@@ -25,15 +25,13 @@ export default function Navbar(props) {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav ml-auto">
           <userContext.Consumer>
-            {({ user, signOut }) => {
-              console.log(user);
-              console.log(signOut)
-              return user.isLoggedIn ? (
+            {({ user, signOut }) =>
+              user.isLoggedIn ? (
                 <SignedInLinks signOut={signOut} />
               ) : (
                 <SignedOutLinks />
-              );
-            }}
+              )
+            }
           </userContext.Consumer>
         </ul>
       </div>
