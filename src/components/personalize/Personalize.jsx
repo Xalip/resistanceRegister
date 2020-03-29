@@ -76,8 +76,6 @@ class Personalize extends React.Component {
     }
 
     handleSubmit(event) {
-        // todo: do required field validation
-        // todo: fix error in console
         // todo: put to server
         console.log(this.state.occupation.type + " | "
             + this.state.occupation.school + " | "
@@ -97,18 +95,16 @@ class Personalize extends React.Component {
                     </a>
                     <div className="form bg-light">
                         <h2>Personalien</h2>
-                        <div className="form-content">
-                            <form>{this.getContactFields().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</form>
+                        <form className="form-content" onSubmit={this.handleSubmit}>
+                            <div>{this.getContactFields().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</div>
                             <hr />
-                            <form>{this.getOccupationField()}</form>
+                            <div>{this.getOccupationField()}</div>
                             <hr />
-                            <form>{this.getApprovalFlags().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</form>
-                        </div>
-                        <footer className="form-footer">
-                            <div className="container">
-                                <button type="submit" className="btn btn-primary" onSubmit={this.handleSubmit}>Speichern</button>
+                            <div>{this.getApprovalFlags().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</div>
+                            <div className="container form-group form-footer">
+                                <button type="submit" className="btn btn-primary">Speichern</button>
                             </div>
-                        </footer>
+                        </form>
                     </div >
                 </div>
             </div>

@@ -20,7 +20,9 @@
     padding: 12px;
 }
 
-.form-footer > div {
+.form-footer {
     display: flex;
+    padding-left: 0;
+    padding-right: 0;
     flex-direction: row-reverse;
 }
