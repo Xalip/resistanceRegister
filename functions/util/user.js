@@ -12,6 +12,7 @@ async function checkGoogleUserExists(accountID) {
 }
 
 async function createUser(data) {
+    data.createdAt = new Date().toISOString();
     const collectionUser = admin.firestore().collection("users");
     try {
         const user = await collectionUser.add(data);
