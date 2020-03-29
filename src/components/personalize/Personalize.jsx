@@ -52,8 +52,8 @@ class Personalize extends React.Component {
                         userID: user.userId
                     }
                 }
-            ).then(user => {
-                this.setState(user);
+            ).then(response => {
+                this.setState(response.data);
             }).catch(error => {
                 this.setState({ ...this.state, saveError: "Daten konnten nicht geladen werden: " + error.message });
                 console.error(new Error(error));
@@ -103,11 +103,11 @@ class Personalize extends React.Component {
     handleOccupationChange({ target }) {
         this.setState({ occupation: { ...this.state.occupation, [target.id]: target.value } });
     }
-
+    
     handleSubmit(event) {
+        event.preventDefault();
         const { user } = this.context;
-        let data = delete this.state.email;
-        data = delete this.state.saveError;
+        const data = {...this.state, saveError: null}
         const responseLogUserIn = axios.put(
             `${
             process.env.NODE_ENV === "production"
@@ -160,7 +160,7 @@ class Personalize extends React.Component {
 
     getErrorPanel() {
         if (this.state.saveError != undefined) {
-            return <div class="alert alert-danger" role="alert">{this.state.saveError}</div>
+            return <div className="alert alert-danger" role="alert">{this.state.saveError}</div>
         }
     }
 
