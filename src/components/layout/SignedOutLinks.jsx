@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom'
 function SignedOutLinks(props) {
     return (
         <Fragment>
-            <li className="nav-item"><NavLink className="nav-link" to="/signUp">SignUp</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to="/signIn">SignIn</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link" to="/signUp">Register</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link" to="/signIn">Login</NavLink></li>
         </Fragment>
     );
 }
