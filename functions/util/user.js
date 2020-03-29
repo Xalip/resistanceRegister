@@ -2,8 +2,8 @@ const admin = require("firebase-admin")
 const bcrypt = require('bcrypt')
 
 async function checkGoogleUserExists(accountID) {
-    const collectionUser = admin.firestore().collection("users");
     try {
+        const collectionUser = admin.firestore().collection("users");
         const user = await collectionUser.where("googleId", "==", accountID).get();
         let userID = null;
         if (!user.empty) {
@@ -38,10 +38,9 @@ async function checkUserLogin(email, password) {
 }
 
 async function createUser(data) {
-    data.createdAt = new Date().toISOString();
-    const collectionUser = admin.firestore().collection("users");
-    console.log(data.email);
     try {
+        const collectionUser = admin.firestore().collection("users");
+        data.createdAt = new Date().toISOString();
         if (!(await checkEmailExists(data.email))) {
             const user = await collectionUser.add(data);
             return {
@@ -64,8 +63,8 @@ async function createUser(data) {
 }
 
 async function checkEmailExists(email) {
-    const userCollection = admin.firestore().collection("users");
     try {
+        const userCollection = admin.firestore().collection("users");
         const query = await userCollection.where("email", "==", email).get();
         return !query.empty;
     } catch (err) {
@@ -75,12 +74,34 @@ async function checkEmailExists(email) {
 }
 
 async function checkUserExists(userID) {
-    const userCollection = admin.firestore().collection("users");
     try {
+        const userCollection = admin.firestore().collection("users");
         return (await userCollection.doc(userID).get()).exists
     } catch (err) {
         console.error(new Error(err));
         return false;
+    }
+}
+
+async function get(userID) {
+    try {
+        const userCollection = admin.firestore().collection("users");
+        const query = await userCollection.doc(userID).get();
+        return { err: null, data: query.exists ? query.data() : null }
+    } catch (error) {
+        console.error(error);
+        return { err: error};
+    }
+}
+
+async function update(userID, data) {
+    try {
+        const userCollection = admin.firestore().collection("users");
+        const query = await userCollection.doc(userID).get();
+        return { err: null, data: query.exists ? query.data() : null }
+    } catch (error) {
+        console.error(error);
+        return { err: error };
     }
 }
 
@@ -89,5 +110,6 @@ module.exports = {
     checkGoogleUserExists,
     checkUserExists,
     createUser,
-    checkUserLogin
+    checkUserLogin,
+    get
 }
