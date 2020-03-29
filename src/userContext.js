@@ -17,6 +17,9 @@ class UserContextProvider extends React.Component {
     }
 
     signIn = (userData) => {
+
+        console.log(userData)
+
         localStorage.setItem("loggedIn", true);
         localStorage.setItem("userId", userData);
         this.setState({ user: { isLoggedIn: true, userId: userData }})
