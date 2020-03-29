@@ -26,7 +26,7 @@ async function getAllTestResultsForUser(userID) {
     const collectionTestResults = admin.firestore().collection("testResulst");
     const testResulstsQuery = await collectionTestResults.where("userID", "==", userID ).get();
     if (testResulstsQuery.empty) {
-        return;
+        return null;
     }
     const results = [];
     testResulstsQuery.forEach(doc => results.push(doc.data()));
