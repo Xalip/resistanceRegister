@@ -2,6 +2,10 @@ import React from 'react';
 import './Personalize.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios"
+import toaster from "toasted-notes"
+import { userContext } from '../../userContext';
+import { Redirect } from 'react-router-dom'
 
 class Personalize extends React.Component {
 
@@ -9,20 +13,21 @@ class Personalize extends React.Component {
         super(props);
 
         this.state = {
-            firstName: "Hans",
-            lastName: "Muster",
-            gender: "M",
-            dateOfBirth: "2012-04-23",
-            email: "hans.muster@hotmail.com",
-            phone: "11111111",
-            zip: "1000",
-            city: "Zürich",
+            firstName: "",
+            lastName: "",
+            gender: "",
+            dateOfBirth: "",
+            email: "",
+            phone: "",
+            zip: "",
+            city: "",
             occupation: {
                 type: "student",
-                school: "gymnasium"
+                school: ""
             },
-            iWantToGetContacted: true,
-            publishData: true
+            iWantToGetContacted: false,
+            publishData: false,
+            saveError: null
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,6 +35,30 @@ class Personalize extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOccupationToggle = this.handleOccupationToggle.bind(this);
         this.handleOccupationChange = this.handleOccupationChange.bind(this);
+    }
+
+    static contextType = userContext
+
+    componentDidMount() {
+        const { user } = this.context;
+        if (user.isLoggedIn && user.userId) {
+            axios.get(`${
+                process.env.NODE_ENV === "production"
+                    ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+                    : process.env.REACT_APP_BASE_API_LOCAL_URL
+                }/user/details`,
+                {
+                    params: {
+                        userID: user.userId
+                    }
+                }
+            ).then(user => {
+                this.setState(user);
+            }).catch(error => {
+                this.setState({ ...this.state, saveError: "Daten konnten nicht geladen werden: " + error.message });
+                console.error(new Error(error));
+            });
+        }
     }
 
     handleChange(event) {
@@ -76,15 +105,32 @@ class Personalize extends React.Component {
     }
 
     handleSubmit(event) {
-        // todo: put to server
-        console.log(this.state.occupation.type + " | "
-            + this.state.occupation.school + " | "
-            + this.state.occupation.job + " | "
-            + this.state.occupation.company + " | "
-            + this.state.occupation.description)
+        const { user } = this.context;
+        let data = delete this.state.email;
+        data = delete this.state.saveError;
+        const responseLogUserIn = axios.put(
+            `${
+            process.env.NODE_ENV === "production"
+                ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+                : process.env.REACT_APP_BASE_API_LOCAL_URL
+            }/user/details`, data, {
+            params: {
+                userID: user.userId
+            }
+        }
+        ).then(response => {
+            toaster.notify("Daten wurden gespeichert", {
+                duration: 3000,
+                position: "top-right"
+            })
+        }).catch(error => {
+            this.setState({ ...this.state, saveError: "Daten konnten nicht gespeichert werden: " + error.message });
+            console.error(new Error(error));
+        });
     }
 
     render() {
+        if (!this.context.user.isLoggedIn) return <Redirect to='/signin' />
         return (
             <div className="page">
                 <div className="form-wrapper">
@@ -95,6 +141,7 @@ class Personalize extends React.Component {
                     </a>
                     <div className="form bg-light">
                         <h2>Personalien</h2>
+                        <div>{this.getErrorPanel()}</div>
                         <form className="form-content" onSubmit={this.handleSubmit}>
                             <div>{this.getContactFields().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</div>
                             <hr />
@@ -109,6 +156,12 @@ class Personalize extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    getErrorPanel() {
+        if (this.state.saveError != undefined) {
+            return <div class="alert alert-danger" role="alert">{this.state.saveError}</div>
+        }
     }
 
     getContactFields() {
@@ -248,14 +301,14 @@ class Personalize extends React.Component {
     getIWantToGetContacted() {
         return <div className="form-check">
             <input className="form-check-input" type="checkbox" id="iWantToGetContacted" checked={this.state.iWantToGetContacted} onChange={this.handleCheckboxChange} />
-            <label className="form-check-label" htmlFor="iWantToGetContacted">Ich möchte kontaktiert werden</label>
+            <label className="form-check-label" htmlFor="iWantToGetContacted">Ich möchte kontaktiert werden.</label>
         </div>
     }
 
     getPublishMyData() {
         return <div className="form-check">
             <input className="form-check-input" type="checkbox" id="publishData" checked={this.state.publishData} onChange={this.handleCheckboxChange} />
-            <label className="form-check-label" htmlFor="publishData">Daten anonymisiert veröffentlichen</label>
+            <label className="form-check-label" htmlFor="publishData">Meine Daten dürfen anonymisiert veröffentlicht werden.</label>
         </div>
     }
 
