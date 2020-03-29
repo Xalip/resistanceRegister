@@ -97,10 +97,11 @@ async function get(userID) {
 async function update(userID, data) {
     try {
         const userRef = admin.firestore().collection("users").doc(userID);
-        const result = await userRef.update(data);
+        await userRef.update(data);
+        return 204;
     } catch (error) {
         console.error(error);
-        return { err: error };
+        return 500;
     }
 }
 
@@ -110,5 +111,6 @@ module.exports = {
     checkUserExists,
     createUser,
     checkUserLogin,
-    get
+    get,
+    update
 }
