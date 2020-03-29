@@ -159,9 +159,9 @@ class TestUpload extends Component {
 
                             <div>
 
-                            {this.state.selectedResultImage &&
-                                <img src={this.state.selectedResultImage} style={{ height: "500px" }} className="img-fluid" alt="" /> 
-                            }
+                                {this.state.selectedResultImage &&
+                                    <img src={this.state.selectedResultImage} style={{ height: "500px" }} className="img-fluid" alt="" />
+                                }
                             </div>
                         </div>
                     </div>
@@ -204,8 +204,53 @@ class TestUpload extends Component {
             var reader = new FileReader();
 
             this.setState({ imageLoadingProgressEnabled: true })
+        }
+    }
 
-            reader.onload = (a) => {
+    handleSubmit(e) {
+        e.preventDefault();
+
+        const options = {
+            headers: {
+                "content-type": this.state.imageContentType,
+                testResult: this.state.result
+            }
+        };
+
+        this.setState({ isUploading: true });
+
+        const url = `${
+            process.env.NODE_ENV === "production"
+                ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+                : process.env.REACT_APP_BASE_API_LOCAL_URL
+            }/testResult/uploadImage?userID=${this.state.userId}`;
+
+        console.log(url);
+
+        axios
+            .post(url, this.state.image, options)
+            .then(e => {
+                this.props.history.push("/overview");
+            })
+            .catch(e => {
+                this.setState({
+                    isUploading: false,
+                    errorMessage: "Could not upload data, please try again."
+                });
+            });
+    }
+
+    handleSelectionChange(e) {
+        this.setState({ result: e.target.value });
+    }
+
+    handleFileChange(e) {
+        if (e.target.files && e.target.files[0]) {
+            var reader = new FileReader();
+
+            this.setState({ imageLoadingProgressEnabled: true });
+
+            reader.onload = a => {
                 let mimeType2 = a.target.result.match(/[^:/]\w+(?=;|,)/)[0];
                 this.setState({
                     image: a.target.result,
