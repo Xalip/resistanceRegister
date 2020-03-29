@@ -78,17 +78,12 @@ router.post("/signin", async (req, res) => {
  */
 router.put("/details", async (req, res) => {
     const userID = req.query.userID;
-    if (userID) {
+    const data = req.body;
+    if (userID && req.body) {
         if (await user.checkUserExists(userID)) {
-            if (!userDetail.err) {
-                if (userDetail.data) {
-                    return res.send((await user.get(userID)).data);
-                } {
-                    return res.sendStatus(404);
-                }
-            } else {
-                return res.sendStatus(500);
-            }
+            return res.sendStatus(await user.update(userID, data));
+        } else {
+            res.sendStatus(404);
         }
     } else {
         res.sendStatus(400);
