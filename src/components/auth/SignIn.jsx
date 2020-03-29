@@ -39,7 +39,7 @@ class SignIn extends Component {
             this.props.history.push("/personaldata");
         } catch (error) {
             this.setState({ isLoading: false });
-            // TODO: user feedback in case login is not working
+
             toaster.notify("Please check your credentials", {
                 duration: 3000,
                 position: "top-right"
