@@ -1,8 +1,11 @@
 'use strict'
 
-const express = require("express");
-const router = express.Router();
-const user = require("../util/user");
+const express = require("express")
+const router = express.Router()
+const user = require("../util/user")
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+
 
 router.post("/google", async (req, res) => {
     console.info("Incoming request for creating Google User with the following data");
@@ -27,16 +30,23 @@ router.post("/google", async (req, res) => {
 });
 
 router.post("/email", async (req, res) => {
-    console.info("Incoming request for creating Email User with the following data");
-    const userData = req.body;
-    console.log(userData);
-    const userCreation = await user.createUser({
-        firstname: null,
-        lastname: null,
-        email: userData.email,
-        password: userData.password
-    });
-    res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
+    console.info("Incoming request for creating Email User with the following data")
+    const userData = req.body
+    bcrypt.hash(userData.password, saltRounds, async (err, hash) => {
+        // Store hash of password in DB.
+        console.log("Current Hash: ", hash)
+        try {
+            const userCreation = await user.createUser({
+                firstname: null,
+                lastname: null,
+                email: userData.email,
+                password: hash
+            })
+            res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
+        } catch (err) {
+            res.status(500).send(err)
+        }
+    })
 })
 
 
@@ -46,8 +56,6 @@ router.post("/email", async (req, res) => {
  */
 router.post("/signin", async (req, res) => {
     console.info("Incoming request to login");
-    const userData = req.body;
-    console.log(userData);
     // check whether user exists in db or not
     const checkResult = await user.checkEmailUserExists(req.body.email, req.body.password);
     if (checkResult.err) {
