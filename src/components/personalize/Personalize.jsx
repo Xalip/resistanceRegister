@@ -9,6 +9,7 @@ class Personalize extends React.Component {
         this.state = {
             firstName: "Hans",
             lastName: "Muster",
+            gender: "M",
             dateOfBirth: "2012-04-23",
             email: "hans.muster@hotmail.com",
             phone: "11111111",
@@ -41,7 +42,7 @@ class Personalize extends React.Component {
 
     handleOccupationChange(event) {
         const occupationValue = event.target.value;
-        this.setState({occupation: occupationValue})
+        this.setState({ occupation: occupationValue })
         if (occupationValue === "student") {
             this.setState({
                 occupationData: {
@@ -64,8 +65,8 @@ class Personalize extends React.Component {
         }
     }
 
-    changeOccupationData({target}) {
-        this.setState({occupationData: {...this.state.occupationData, [target.id]: target.value}});
+    changeOccupationData({ target }) {
+        this.setState({ occupationData: { ...this.state.occupationData, [target.id]: target.value } });
     }
 
     handleSubmit(event) {
@@ -94,6 +95,7 @@ class Personalize extends React.Component {
     getContactFields() {
         return [
             this.getName(),
+            this.getGender(),
             this.getBirthDay(),
             this.getEmail(),
             this.getPhone(),
@@ -111,6 +113,17 @@ class Personalize extends React.Component {
                 <label htmlFor="lastName">Nachname</label>
                 <input type="text" className="form-control" id="lastName" value={this.state.lastName} onChange={this.handleChange} required></input>
             </div>
+        </div>
+    }
+
+    getGender() {
+        return <div>
+            <label htmlFor="gender">Geschlecht</label>
+            <select className="form-control" id="gender" required value={this.state.gender} onChange={this.handleOccupationChange}>
+                <option value="M">Männlich</option>
+                <option value="W">Weiblich</option>
+                <option value="O">Andere</option>
+            </select>
         </div>
     }
 
@@ -152,7 +165,7 @@ class Personalize extends React.Component {
         return <div>
             <div className="form-group">
                 <label htmlFor="occupation">Tätigkeit</label>
-                <select className="form-control" id="occupation" value={this.state.occupation} onChange={this.handleOccupationChange}>
+                <select className="form-control" id="occupation" required value={this.state.occupation} onChange={this.handleOccupationChange}>
                     <option value="student">Schüler(in) / Student(in)</option>
                     <option value="employed">Berufstätig</option>
                     <option value="self-employed">Selbständig</option>
