@@ -18,6 +18,7 @@ class SignIn extends Component {
 
     this.handleInput = this.handleInput.bind(this);
     this.registetButton = this.registetButton.bind(this);
+    this.logUserInEmail = this.logUserInEmail.bind(this);
   }
 
   registetButton(e) {
