@@ -13,7 +13,7 @@ router.post("/google", async (req, res) => {
         return res.status(500).send();
     } else {
         if (checkResult.doesUserExist) {
-            return res.status(204);
+            return res.status(200).send(checkResult.id);
         } else {
             const response = await user.createUser({
                 firstname: userData.givenName,
@@ -22,7 +22,7 @@ router.post("/google", async (req, res) => {
                 googleId: userData.googleId
             });
             //TODO: send proper response
-            return res.status(204).send("User successfully created");
+            return res.status(201).send("User successfully created");
         }
     }
 });
