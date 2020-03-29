@@ -41,4 +41,26 @@ router.post("/email", async (req, res) => {
 })
 
 
+/**
+ * Express route for signin
+ * @param {req} req contains submitted body with email and password
+ */
+router.post("/signin", async (req, res) => {
+    console.info("Incoming request to login");
+    const userData = req.body;
+    console.log(userData);
+    // check whether user exists in db or not
+    const checkResult = await user.checkEmailUserExists(req.body.email, req.body.password);
+    if (checkResult.err) {
+        return res.status(500).send();
+    } else {
+        if (checkResult.doesUserExist) {
+            return res.status(202).send();
+        } else {
+            //TODO: send proper response
+            return res.status(403).send("User does not exist. Please register at first.");
+        }
+    }
+})
+
 module.exports = router;
