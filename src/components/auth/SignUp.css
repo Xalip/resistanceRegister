@@ -52,8 +52,9 @@
             width: 100% !important
         }
 
-          .registerButton{
-            width: 100% !important
+        .registerButton{
+            width: 100% !important;
+            margin-bottom: 15px;
         }
 
         .socialLoginSection {

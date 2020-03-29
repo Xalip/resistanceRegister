@@ -16,7 +16,6 @@ class SignIn extends Component {
     };
 
     this.handleInput = this.handleInput.bind(this);
-    this.registetButton = this.logUserInEmail.bind(this);
     this.registetButton = this.registetButton.bind(this);
   }
 
@@ -127,6 +126,16 @@ class SignIn extends Component {
             </div>
             <div className="login-method-separator">OR</div>
             <div>
+              <div className="row">
+                <div className="col text-center">
+                  <button
+                    className="btn btn-primary registerButton"
+                    onClick={this.registetButton}
+                  >
+                    Register
+                  </button>
+                </div>
+              </div>
               <GoogleLogin
                 clientId="497756564991-i12ocg176ekvvvm4dbhigj1otst8com6.apps.googleusercontent.com"
                 buttonText="Continue with Google"
@@ -135,7 +144,6 @@ class SignIn extends Component {
                 cookiePolicy={"single_host_origin"}
                 className="socialLoginSection"
               />
-              <Link to="/signUp">Register</Link>
             </div>
           </form>
         </div>

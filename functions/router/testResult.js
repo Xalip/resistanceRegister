@@ -50,8 +50,7 @@ router.get("/all", async (req, res) => {
     const userID = req.query.userID;
     if (userID) {
         try {
-            const testResults = await getAllTestResultsForUser(userID);
-            return res.status(200).send(testResults);
+            return res.status(200).send(await getAllTestResultsForUser(userID));
         } catch (err) {
             console.error(new Error(err));
             return res.send(err);

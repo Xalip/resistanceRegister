@@ -4,7 +4,7 @@
             margin-top: 30px;
             justify-content: center;
             grid-template-columns: [main-start] 40% [main-end];
-            grid-template-rows: 50px [main-start] 580px [main-end] 400px;
+            grid-template-rows: 50px [main-start] 600px [main-end] 400px;
         }
         
         .maingridLogin {
