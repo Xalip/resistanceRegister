@@ -2,6 +2,10 @@ import React from 'react';
 import './Personalize.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios"
+import toaster from "toasted-notes"
+import { userContext } from '../../userContext';
+import { Redirect } from 'react-router-dom'
 
 class Personalize extends React.Component {
 
@@ -9,20 +13,21 @@ class Personalize extends React.Component {
         super(props);
 
         this.state = {
-            firstName: "Hans",
-            lastName: "Muster",
-            gender: "M",
-            dateOfBirth: "2012-04-23",
-            email: "hans.muster@hotmail.com",
-            phone: "11111111",
-            zip: "1000",
-            city: "Zürich",
+            firstName: "",
+            lastName: "",
+            gender: "",
+            dateOfBirth: "",
+            email: "",
+            phone: "",
+            zip: "",
+            city: "",
             occupation: {
                 type: "student",
-                school: "gymnasium"
+                school: ""
             },
-            iWantToGetContacted: true,
-            publishData: true
+            iWantToGetContacted: false,
+            publishData: false,
+            saveError: null
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,6 +35,30 @@ class Personalize extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOccupationToggle = this.handleOccupationToggle.bind(this);
         this.handleOccupationChange = this.handleOccupationChange.bind(this);
+    }
+
+    static contextType = userContext
+
+    componentDidMount() {
+        const { user } = this.context;
+        if (user.isLoggedIn && user.userId) {
+            axios.get(`${
+                process.env.NODE_ENV === "production"
+                    ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+                    : process.env.REACT_APP_BASE_API_LOCAL_URL
+                }/user/details`,
+                {
+                    params: {
+                        userID: user.userId
+                    }
+                }
+            ).then(user => {
+                this.setState(user);
+            }).catch(error => {
+                this.setState({ ...this.state, saveError: "Daten konnten nicht geladen werden: " + error.message });
+                console.error(new Error(error));
+            });
+        }
     }
 
     handleChange(event) {
@@ -76,50 +105,70 @@ class Personalize extends React.Component {
     }
 
     handleSubmit(event) {
-        // todo: do required field validation
-        // todo: fix error in console
-        // todo: put to server
-        console.log(this.state.occupation.type + " | "
-            + this.state.occupation.school + " | "
-            + this.state.occupation.job + " | "
-            + this.state.occupation.company + " | "
-            + this.state.occupation.description)
+        const { user } = this.context;
+        let data = delete this.state.email;
+        data = delete this.state.saveError;
+        const responseLogUserIn = axios.put(
+            `${
+            process.env.NODE_ENV === "production"
+                ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+                : process.env.REACT_APP_BASE_API_LOCAL_URL
+            }/user/details`, data, {
+            params: {
+                userID: user.userId
+            }
+        }
+        ).then(response => {
+            toaster.notify("Daten wurden gespeichert", {
+                duration: 3000,
+                position: "top-right"
+            })
+        }).catch(error => {
+            this.setState({ ...this.state, saveError: "Daten konnten nicht gespeichert werden: " + error.message });
+            console.error(new Error(error));
+        });
     }
 
     render() {
+        if (!this.context.user.isLoggedIn) return <Redirect to='/signin' />
         return (
             <div className="page">
                 <div className="form-wrapper">
                     <a className="navigate-back" href="/overview">
-                        <h1>
-                            <FontAwesomeIcon size="lg" icon={faArrowAltCircleLeft} />
-                        </h1>
+                        <h2>
+                            <FontAwesomeIcon icon={faArrowAltCircleLeft} />
+                        </h2>
                     </a>
                     <div className="form bg-light">
                         <h2>Personalien</h2>
-                        <div className="form-content">
-                            <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
+                        <div>{this.getErrorPanel()}</div>
+                        <form className="form-content" onSubmit={this.handleSubmit}>
+                            <div>{this.getContactFields().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</div>
                             <hr />
-                            <form>{this.getOccupationField()}</form>
+                            <div>{this.getOccupationField()}</div>
                             <hr />
-                            <form>{this.getApprovalFlags().map(field => <div className="form-group">{field}</div>)}</form>
-                        </div>
-                        <footer className="form-footer">
-                            <div className="container">
-                                <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Speichern</button>
+                            <div>{this.getApprovalFlags().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</div>
+                            <div className="container form-group form-footer">
+                                <button type="submit" className="btn btn-primary">Speichern</button>
                             </div>
-                        </footer>
+                        </form>
                     </div >
                 </div>
             </div>
         );
     }
 
+    getErrorPanel() {
+        if (this.state.saveError != undefined) {
+            return <div class="alert alert-danger" role="alert">{this.state.saveError}</div>
+        }
+    }
+
     getContactFields() {
         return [
             this.getName(),
             this.getGender(),
-            this.getBirthDay(),
+            this.getDateOfBirth(),
             this.getEmail(),
             this.getPhone(),
             this.getZipCity()
@@ -150,10 +199,10 @@ class Personalize extends React.Component {
         </div>
     }
 
-    getBirthDay() {
+    getDateOfBirth() {
         return <div>
-            <label htmlFor="birthday">Geburtsdatum</label>
-            <input type="date" className="form-control" id="birthday" required value={this.state.dateOfBirth} onChange={this.handleChange}></input>
+            <label htmlFor="dateOfBirth">Geburtsdatum</label>
+            <input type="date" className="form-control" id="dateOfBirth" required value={this.state.dateOfBirth} onChange={this.handleChange}></input>
         </div>
     }
 
@@ -166,9 +215,13 @@ class Personalize extends React.Component {
 
     getPhone() {
         return <div>
-            <label htmlFor="phone">Telefon<span className="text-muted">(Optional)</span></label>
+            <label htmlFor="phone">Telefon {this.getOptionalLabel()}</label>
             <input type="tel" className="form-control" id="phone" value={this.state.phone} onChange={this.handleChange}></input>
         </div>
+    }
+
+    getOptionalLabel() {
+        return <span className="text-muted">(Optional)</span>;
     }
 
     getZipCity() {
@@ -220,13 +273,12 @@ class Personalize extends React.Component {
     }
 
     getEmployerPanel(companyRequired) {
-        // todo: add optional label to company field if not required
         return <div className="form-group"><div className="form-group" >
             <label htmlFor="job">Beruf</label>
             <input type="text" className="form-control" id="job" required value={this.state.occupation.job} onChange={this.handleOccupationChange}></input>
         </div>
             <div className="form-group">
-                <label htmlFor="company">Firma</label>
+                <label htmlFor="company">Firma {!companyRequired ? this.getOptionalLabel() : ""}</label>
                 <input type="text" className="form-control" id="company" required={companyRequired} value={this.state.occupation.company} onChange={this.handleOccupationChange}></input>
             </div>
         </div>
@@ -249,14 +301,14 @@ class Personalize extends React.Component {
     getIWantToGetContacted() {
         return <div className="form-check">
             <input className="form-check-input" type="checkbox" id="iWantToGetContacted" checked={this.state.iWantToGetContacted} onChange={this.handleCheckboxChange} />
-            <label className="form-check-label" htmlFor="iWantToGetContacted">Ich möchte kontaktiert werden</label>
+            <label className="form-check-label" htmlFor="iWantToGetContacted">Ich möchte kontaktiert werden.</label>
         </div>
     }
 
     getPublishMyData() {
         return <div className="form-check">
             <input className="form-check-input" type="checkbox" id="publishData" checked={this.state.publishData} onChange={this.handleCheckboxChange} />
-            <label className="form-check-label" htmlFor="publishData">Daten anonymisiert veröffentlichen</label>
+            <label className="form-check-label" htmlFor="publishData">Meine Daten dürfen anonymisiert veröffentlicht werden.</label>
         </div>
     }
 
