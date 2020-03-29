@@ -137,7 +137,7 @@ class SignIn extends Component {
                     className="btn btn-primary registerButton"
                     onClick={this.registetButton}
                   >
-                    Register
+                   To Register
                   </button>
                 </div>
               </div>
