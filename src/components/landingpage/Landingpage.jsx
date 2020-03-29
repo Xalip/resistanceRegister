@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function LandingPage() {
   let history = useHistory();
   return (
-    <div className="content">
+    <div className="lContent">
       <header>
         <div className="title">esistance Register</div>
       </header>
@@ -15,15 +15,15 @@ function LandingPage() {
         Via ResistanceRegister you can help in the fight against Covid-19 by
         sharing your resistance status. Therefore just register on our portal
         and furthermore keep up track on your cities total status.
-        <Button
-          className="startNow"
-          onClick={() => {
-            history.push("/signUp");
-          }}
-        >
-          Start Now
-        </Button>
-        <Link to="/overview">Overview</Link>
+        <div className="startNow">
+          <Button
+            onClick={() => {
+              history.push("/signUp");
+            }}
+          >
+            Start Now
+          </Button>
+        </div>
       </div>
     </div>
   );

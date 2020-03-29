@@ -5,11 +5,19 @@ import { geosearch } from "esri-leaflet-geocoder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import * as mockups from "./OverviewMocks.json";
-import { userContext } from './../../userContext'
+import * as geoData from "./GeoDataMocks.json";
+import { userContext } from "./../../userContext";
 
 class Overview extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  markResistance(rR, mymap) {
+    for (let i = 0; i < rR.length; i++) {}
+
+    // var circle = new L.circle(latlng, 20, { color: color, opacity: 0.5 });
+    // circle.addTo(mymap);
   }
 
   componentDidMount() {
@@ -20,11 +28,13 @@ class Overview extends React.Component {
     }).addTo(mymap);
 
     var searchControl = geosearch().addTo(mymap);
+
+    this.markResistance(geoData, mymap);
   }
 
-  static contextType = userContext
+  static contextType = userContext;
   render() {
-    const { isLoggedIn } = this.context.user
+    const { isLoggedIn } = this.context.user;
 
     return (
       <div className="oOverview">
@@ -47,7 +57,7 @@ class Overview extends React.Component {
         </div>
         <div className="oMap" id="oMap"></div>
       </div>
-    )
+    );
   }
 }
 
