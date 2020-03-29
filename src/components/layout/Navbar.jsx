@@ -1,5 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import SignedInLinks from "./SignedInLinks";
+import SignedOutLinks from "./SignedOutLinks";
+
+import { userContext } from "./../../userContext";
 
 export default function Navbar(props) {
   return (
@@ -20,34 +23,18 @@ export default function Navbar(props) {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link className="nav-link" to="/signUp">
-              SignUp
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/signIn">
-              SignIn
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/test/upload">
-              Upload
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/personalData">
-              PersonalData
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/overview">
-              Overview
-            </Link>
-          </li>
+        <ul className="navbar-nav ml-auto">
+          <userContext.Consumer>
+            {({ user, signOut }) =>
+              user.isLoggedIn ? (
+                <SignedInLinks signOut={signOut} />
+              ) : (
+                <SignedOutLinks />
+              )
+            }
+          </userContext.Consumer>
         </ul>
       </div>
     </nav>
-  )
+  );
 }

@@ -5,11 +5,12 @@ const functions = require("firebase-functions");
 
 /**
  * Upload the image file to Google Storage
- * @param {File} file object that will be uploaded to Google Storage
+ * @param {File} req object that will be uploaded to Google Storage
+ * @param {id} id under which the image will be saved
  */
-async function uploadFile(id, file) {
+async function uploadFile(id, req) {
     return new Promise((resolve, reject) => {
-        if (!file) {
+        if (!req) {
             reject(new Error('No image file'));
         }
 
@@ -19,7 +20,7 @@ async function uploadFile(id, file) {
         // Create WriteStream
         const uploadStream = fileUpload.createWriteStream({
             metadata: {
-                contentType: 'image/pdf'
+                contentType: req.headers["content-type"]
             }
         });
 
@@ -34,13 +35,18 @@ async function uploadFile(id, file) {
             resolve(id)
         });
 
-        uploadStream.end(file.body);
+        uploadStream.end(req.body);
     });
 }
 
+function getFileStream(imageID) {
+    const bucket = admin.storage().bucket(functions.config().backend.storagebucket);
+    return bucket.file(imageID).createReadStream();
+}
 
 module.exports = {
-    uploadFile
+    uploadFile,
+    getFileStream
 }
 
 
