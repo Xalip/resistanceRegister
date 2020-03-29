@@ -19,15 +19,14 @@ async function checkGoogleUserExists(accountID) {
 async function checkEmailUserExists(email, password) {
     return new Promise(async (resolve, reject) => {
         const collectionUser = admin.firestore().collection("users");
-
         try {
-            const user = await collectionUser.where("email", "==", email).get()
+            const user = await collectionUser.where("email", "==", email).get();
             user.forEach(async singleUser => {
                 const match = await bcrypt.compare(password, singleUser.data().password);
                 if (match) {
-                    resolve({ doesUserExist: !user.empty, err: null, id: user.id });
+                    resolve({ doesUserExist: !user.empty, err: null, id: singleUser.id });
                 } else {
-                    resolve({ doesUserExist: user.empty, err: null, id: user.id });
+                    resolve({ doesUserExist: user.empty, err: null, id: singleUser.id });
                 }
             });
         } catch (err) {
