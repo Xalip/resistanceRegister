@@ -2,28 +2,30 @@ import React, { Fragment } from "react";
 import "./SignUp.css";
 import { GoogleLogin } from "react-google-login";
 import axios from "axios";
-import { userContext } from "./../../userContext"
-import toaster from "toasted-notes"
-import "toasted-notes/src/styles.css"
+import { userContext } from "./../../userContext";
+import toaster from "toasted-notes";
+import "toasted-notes/src/styles.css";
 
 // const regExEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
 
 class SignUp extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
       user: {
         loggedIn: false,
         isLoading: false
       },
-      email: '',
-      password: '',
-      passwordRepeat: '',
+      email: "",
+      password: "",
+      passwordRepeat: ""
     };
 
-    this.baseUrl =  `${process.env.NODE_ENV === "production" ? 
-                process.env.REACT_APP_BASE_API_DEPLOY_URL :
-                process.env.REACT_APP_BASE_API_LOCAL_URL}/user/`;
+    this.baseUrl = `${
+      process.env.NODE_ENV === "production"
+        ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+        : process.env.REACT_APP_BASE_API_LOCAL_URL
+    }/user/`;
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.isFormValid = this.isFormValid.bind(this);
@@ -36,9 +38,9 @@ class SignUp extends React.Component {
       const userData = responseGoogleLogin.profileObj;
       const responseCreateUser = await axios.post(
         `${
-        process.env.NODE_ENV === "production"
-          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-          : process.env.REACT_APP_BASE_API_LOCAL_URL
+          process.env.NODE_ENV === "production"
+            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+            : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/user/google`,
         userData
       );
@@ -52,22 +54,22 @@ class SignUp extends React.Component {
     event.preventDefault();
     this.setState({ isLoading: true });
 
-    const { email, password, passwordRepeat} = this.state;
+    const { email, password, passwordRepeat } = this.state;
 
     if (password !== passwordRepeat) {
       toaster.notify("Please enter the same password in both fields", {
         duration: 3000,
         position: "top-right"
-      })
+      });
     }
 
     if (password === passwordRepeat) {
       try {
         const responseCreateUser = await axios.post(
           `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
+            process.env.NODE_ENV === "production"
+              ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+              : process.env.REACT_APP_BASE_API_LOCAL_URL
           }/user/email`,
           {
             givenName: null,
@@ -76,11 +78,23 @@ class SignUp extends React.Component {
             password: password
           }
         );
+        console.log(responseCreateUser);
         this.context.signIn(responseCreateUser.data);
         this.props.history.push("/personaldata");
       } catch (err) {
-        this.setState({ isLoading: false });
-        console.error(err);
+        if (err.response.status === 400) {
+          console.error(err);
+          this.setState({ isLoading: false });
+          toaster.notify("This email is already registered, Please log in.", {
+            duration: 3000,
+            position: "top-right"
+          });
+        } else {
+          toaster.notify("Something went wrong, Please try again later!", {
+            duration: 3000,
+            position: "top-right"
+          });
+        }
       }
     }
   }
@@ -195,13 +209,16 @@ class SignUp extends React.Component {
   }
 
   handleInputChange(e) {
-      this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   isFormValid() {
-      return this.state.email && this.state.password && this.state.password === this.state.passwordRepeat;
+    return (
+      this.state.email &&
+      this.state.password &&
+      this.state.password === this.state.passwordRepeat
+    );
   }
-
 }
 
 export default SignUp;
