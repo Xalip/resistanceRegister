@@ -1,27 +1,48 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar"
-import LandingPage from "./landingpage/Landingpage";
-import Overview from "./overview/Overview";
+import SignUp from "./components/auth/SignUp"
+import SignIn from "./components/auth/SignIn"
+import LandingPage from "./components/landingpage/Landingpage";
+import Overview from "./components/overview/Overview";
 import TestUpload from "./components/testupload/TestUpload"
-import SignUp from "./auth/SignUp"
+import Personalize from "./components/personalize/Personalize";
+import { userContext } from './userContext';
 
-function App() {
-    return (
-        <Router>
-            <div className="App">
-                <Navbar />
-                <Switch>
-                    <Route exact path="/" component={LandingPage}></Route>
-                    <Route exact path="/signUp" component={SignUp}></Route>
-                    <Route exact path="/overview" component={Overview}></Route>
-                    <Route exact path="/test/upload" component={TestUpload}></Route>
-                </Switch>
-            </div>
-        </Router>
-    );
+class App extends React.Component {
+    constructor(props) {
+        super(props)
+        // FIXME: only for dev
+        window.app = this
+        this.state = {
+            user: {
+                loggedIn: false
+            }
+        }
+    }
+    render() {
+        return (
+            <Router>
+                <userContext.Provider value={this.state}>
+                    <div className="App">
+                        <Navbar />
+                        <div className="wrapper">
+                            <Switch >
+                                <Route exact path="/" component={LandingPage}></Route>
+                                <Route exact path="/signUp" component={SignUp}></Route>
+                                <Route exact path="/signIn" component={SignIn}></Route>
+                                <Route exact path="/overview" component={Overview}></Route>
+                                <Route exact path="/test/upload" component={TestUpload}></Route>
+                                <Route exact path="/personalData" component={Personalize} />
+                            </Switch>
+                        </div>
+                    </div>
+                </userContext.Provider>
+            </Router >
+        )
+    }
 }
 
-export default App;
+export default App
