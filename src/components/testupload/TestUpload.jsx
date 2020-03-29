@@ -103,8 +103,7 @@ class TestUpload extends Component {
 
         this.setState({ isUploading: true});
 
-
-        const url = `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/uploadResult?userID=${this.state.userId}`;
+        const url = `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/testResult/uploadImage?userID=${this.state.userId}`;
 
         console.log(url);
 
