@@ -25,9 +25,9 @@ async function checkEmailUserExists(email, password) {
             user.forEach(async singleUser => {
                 const match = await bcrypt.compare(password, singleUser.data().password);
                 if (match) {
-                    resolve({ doesUserExist: !user.empty, err: null });
+                    resolve({ doesUserExist: !user.empty, err: null, id: user.id });
                 } else {
-                    resolve({ doesUserExist: user.empty, err: null });
+                    resolve({ doesUserExist: user.empty, err: null, id: user.id });
                 }
             });
         } catch (err) {
