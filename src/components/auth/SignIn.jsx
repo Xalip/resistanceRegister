@@ -11,16 +11,14 @@ class SignIn extends Component {
         this.state = {
             email: '',
             password: ''
-        }
+        };
 
-        this.handleInput = this.handleInput.bind(this)
-        this.logUserIn = this.logUserIn.bind(this)
+        this.handleInput = this.handleInput.bind(this);
+        this.logUserInEmail = this.logUserInEmail.bind(this);
     }
 
-    async logUserIn(e) {
+    async logUserInEmail(e) {
         e.preventDefault()
-
-        const { signIn } = this.context
         try {
             const responseLogUserIn = await axios.post(
                 `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/signin`,
@@ -29,7 +27,7 @@ class SignIn extends Component {
                     password: this.state.password
                 }
             );
-            signIn()
+            this.context.signIn();
 
             this.props.history.push('/personaldata');
         } catch (error) {
@@ -43,14 +41,12 @@ class SignIn extends Component {
             // TODO: user response about error
             // do nothing, login didnt'work
         } else {
-            const { setLoggedIn } = this.context
             const userData = responseGoogleLogin.profileObj;
             const responseCreateUser = await axios.post(
                 `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/google`,
                 userData
             );
-            console.log(responseCreateUser);
-            setLoggedIn()
+            this.context.signIn();
         }
     }
 
@@ -90,7 +86,7 @@ class SignIn extends Component {
                         <div className="mt-5">
                             <Link to="/signUp">Register</Link>
                             <button type="submit"
-                                className="btn btn-primary float-right" onClick={this.logUserIn}>
+                                className="btn btn-primary float-right" onClick={this.logUserInEmail}>
                                 Sign In
                             </button>
                         </div>

@@ -9,7 +9,7 @@ import LandingPage from "./components/landingpage/Landingpage";
 import Overview from "./components/overview/Overview";
 import TestUpload from "./components/testupload/TestUpload"
 import Personalize from "./components/personalize/Personalize";
-import { UserContextProvider } from "./userContext";
+import { UserContextProvider } from './userContext'
 
 
 class App extends React.Component {
@@ -17,12 +17,8 @@ class App extends React.Component {
         super(props)
         // FIXME: only for dev
         window.app = this
-        this.state = {
-            user: {
-                isLoggedIn: false
-            }
-        }
     }
+    
     render() {
         return (
             <Router>
