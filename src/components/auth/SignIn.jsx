@@ -11,16 +11,16 @@ class SignIn extends Component {
         this.state = {
             email: '',
             password: ''
-        }
+        };
 
-        this.handleInput = this.handleInput.bind(this)
-        this.logUserIn = this.logUserIn.bind(this)
+        this.handleInput = this.handleInput.bind(this);
+        this.logUserIn = this.logUserIn.bind(this);
     }
 
     async logUserIn(e) {
         e.preventDefault()
 
-        const { signIn } = this.context
+        const { signIn } = this.context;
         try {
             const responseLogUserIn = await axios.post(
                 `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/signin`,
@@ -29,7 +29,7 @@ class SignIn extends Component {
                     password: this.state.password
                 }
             );
-            signIn()
+            signIn();
 
             this.props.history.push('/personaldata');
         } catch (error) {

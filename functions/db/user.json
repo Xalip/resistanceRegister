@@ -7,12 +7,12 @@
     "phone": "004917655555555",
     "zip": 76111,
     "city": "KA City town",
-    "occupation" : "student",
-    "occupationData": {
+    "occupation": {
+        "type": "student",
         "school": "Grundschule KA City",
         "job": null,
         "employer": null,
-        "occupationDescription": null
+        "description": null
     },
     "publishProfile": false,
     "iWantToGetContacted": false,
