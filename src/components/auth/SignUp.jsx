@@ -2,7 +2,9 @@ import React, { Fragment } from "react";
 import "./SignUp.css";
 import { GoogleLogin } from "react-google-login";
 import axios from "axios";
-import { userContext } from "./../../userContext";
+import { userContext } from "./../../userContext"
+import toaster from "toasted-notes"
+import "toasted-notes/src/styles.css"
 
 // const regExEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
 
@@ -24,9 +26,9 @@ class SignUp extends React.Component {
       const userData = responseGoogleLogin.profileObj;
       const responseCreateUser = await axios.post(
         `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+          : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/user/google`,
         userData
       );
@@ -42,13 +44,21 @@ class SignUp extends React.Component {
     const email = document.getElementById("inputEmail").value;
     const password = document.getElementById("inputPassword").value;
     const passwordRepeat = document.getElementById("inputPasswordRepeat").value;
+
+    if (password !== passwordRepeat) {
+      toaster.notify("Please enter the same password in both fields", {
+        duration: 3000,
+        position: "top-right"
+      })
+    }
+
     if (password === passwordRepeat) {
       try {
         const responseCreateUser = await axios.post(
           `${
-            process.env.NODE_ENV === "production"
-              ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-              : process.env.REACT_APP_BASE_API_LOCAL_URL
+          process.env.NODE_ENV === "production"
+            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+            : process.env.REACT_APP_BASE_API_LOCAL_URL
           }/user/email`,
           {
             givenName: null,
@@ -84,8 +94,8 @@ class SignUp extends React.Component {
                 id="inputEmail"
                 aria-describedby="emailHelp"
                 placeholder="Enter email"
-                //required
-                // pattern={regExEmail}
+              //required
+              // pattern={regExEmail}
               />
             </div>
             <div className="form-group">
@@ -135,19 +145,19 @@ class SignUp extends React.Component {
                   className="btn signupButton btn-primary"
                   onClick={this.emailPasswordSignUp.bind(this)}
                 >
-                {this.state.isLoading ? (
-                  <Fragment>
-                    <span
-                      className="spinner-border spinner-border-sm"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
+                  {this.state.isLoading ? (
+                    <Fragment>
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
                     Loading...{" "}
-                  </Fragment>
-                ) : (
-                  "Sign In"
-                )}
-              </button>
+                    </Fragment>
+                  ) : (
+                      "Sign In"
+                    )}
+                </button>
               </div>
             </div>
             <div className="login-method-separator">OR</div>
