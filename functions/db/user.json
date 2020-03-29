@@ -14,6 +14,7 @@
         "employer": null,
         "occupationDescription": null
     },
+    "publishProfile": false,
     "iWantToGetContacted": false,
     "publishData": false,
     "covidTestResult": [

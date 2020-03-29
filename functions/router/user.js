@@ -2,9 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const user = require("../auth/user");
-const { uploadFile } = require("../util/attachment");
-const uuid4 = require('uuid4');
+const user = require("../util/user");
 
 router.post("/google", async (req, res) => {
     console.info("Incoming request for creating Google User with the following data");
@@ -42,34 +40,6 @@ router.post("/email", async (req, res) => {
     res.status(response.status).send(response.status === 201 ? response.id : "something went wrong");
 })
 
-/**
- * Express route for uploading and image to the Google Cloud Sotrage
- * @param {req} req binary stream of the file
- * @param {req.query.userID} req.query.userID
- */
-router.post("/uploadResult", async (req, res) => {
-    const userID = req.query.userID;
-    if (await user.checkUserExists(userID)) {
-        //FIXME: if
-        if (req) {
-            try {
-                console.log("Uploading file...");
-                //TODO: Promise all insert database entry
-                const fileID = uuid4();
-                const result = await uploadFile(fileID, req);
-                return res.status(201).send(result);
-            } catch (err) {
-                console.error(new Error(err));
-                return res.send(err);
-            }
-        } else {
-            console.log("No file...");
-            return res.sendStatus(400);
-        }
-    } else {
-        return res.sendStatus(404);
-    }
-});
 
 /**
  * Express route for signin
