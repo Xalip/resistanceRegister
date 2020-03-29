@@ -166,9 +166,13 @@ class Personalize extends React.Component {
 
     getPhone() {
         return <div>
-            <label htmlFor="phone">Telefon<span className="text-muted">(Optional)</span></label>
+            <label htmlFor="phone">Telefon {this.getOptionalLabel()}</label>
             <input type="tel" className="form-control" id="phone" value={this.state.phone} onChange={this.handleChange}></input>
         </div>
+    }
+
+    getOptionalLabel() {
+        return <span className="text-muted">(Optional)</span>;
     }
 
     getZipCity() {
@@ -220,13 +224,12 @@ class Personalize extends React.Component {
     }
 
     getEmployerPanel(companyRequired) {
-        // todo: add optional label to company field if not required
         return <div className="form-group"><div className="form-group" >
             <label htmlFor="job">Beruf</label>
             <input type="text" className="form-control" id="job" required value={this.state.occupation.job} onChange={this.handleOccupationChange}></input>
         </div>
             <div className="form-group">
-                <label htmlFor="company">Firma</label>
+                <label htmlFor="company">Firma {!companyRequired ? this.getOptionalLabel() : ""}</label>
                 <input type="text" className="form-control" id="company" required={companyRequired} value={this.state.occupation.company} onChange={this.handleOccupationChange}></input>
             </div>
         </div>
