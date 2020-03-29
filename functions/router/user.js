@@ -24,7 +24,7 @@ router.post("/google", async (req, res) => {
                 email: userData.email,
                 googleId: userData.googleId
             });
-            res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
+            return res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
         }
     }
 });
