@@ -15,8 +15,18 @@ class SignUp extends React.Component {
       user: {
         loggedIn: false,
         isLoading: false
-      }
+      },
+      email: '',
+      password: '',
+      passwordRepeat: '',
     };
+
+    this.baseUrl =  `${process.env.NODE_ENV === "production" ? 
+                process.env.REACT_APP_BASE_API_DEPLOY_URL :
+                process.env.REACT_APP_BASE_API_LOCAL_URL}/user/`;
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.isFormValid = this.isFormValid.bind(this);
   }
 
   async responseGoogleLogin(responseGoogleLogin) {
@@ -41,9 +51,8 @@ class SignUp extends React.Component {
   async emailPasswordSignUp(event) {
     event.preventDefault();
     this.setState({ isLoading: true });
-    const email = document.getElementById("inputEmail").value;
-    const password = document.getElementById("inputPassword").value;
-    const passwordRepeat = document.getElementById("inputPasswordRepeat").value;
+
+    const { email, password, passwordRepeat} = this.state;
 
     if (password !== passwordRepeat) {
       toaster.notify("Please enter the same password in both fields", {
@@ -90,29 +99,36 @@ class SignUp extends React.Component {
               <label>Email address</label>
               <input
                 type="email"
+                name="email"
                 className="form-control"
                 id="inputEmail"
                 aria-describedby="emailHelp"
                 placeholder="Enter email"
-              //required
-              // pattern={regExEmail}
+                value={this.state.email}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
               <label>Password</label>
               <input
                 type="password"
+                name="password"
                 className="form-control"
                 id="inputPassword"
                 placeholder="Password"
+                value={this.state.password}
+                onChange={this.handleInputChange}
               />
               <div className="passwordRepeat">
                 <label>Repeat password</label>
                 <input
                   type="password"
+                  name="passwordRepeat"
                   className="form-control"
                   id="inputPasswordRepeat"
                   placeholder="Please enter password again"
+                  value={this.state.passwordRepeat}
+                  onChange={this.handleInputChange}
                 />
               </div>
             </div>
@@ -141,6 +157,7 @@ class SignUp extends React.Component {
             <div className="row">
               <div className="col text-center">
                 <button
+                  disabled={!this.isFormValid()}
                   type="submit"
                   className="btn signupButton btn-primary"
                   onClick={this.emailPasswordSignUp.bind(this)}
@@ -176,6 +193,15 @@ class SignUp extends React.Component {
       </div>
     );
   }
+
+  handleInputChange(e) {
+      this.setState({ [e.target.name]: e.target.value });
+  }
+
+  isFormValid() {
+      return this.state.email && this.state.password && this.state.password === this.state.passwordRepeat;
+  }
+
 }
 
 export default SignUp;
