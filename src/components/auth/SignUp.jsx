@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "./SignUp.css";
 import { GoogleLogin } from "react-google-login";
 import axios from "axios";
@@ -11,9 +11,10 @@ class SignUp extends React.Component {
     super()
     this.state = {
       user: {
-        loggedIn: false
+        loggedIn: false,
+        isLoading: false
       }
-    }
+    };
   }
 
   async responseGoogleLogin(responseGoogleLogin) {
@@ -35,9 +36,9 @@ class SignUp extends React.Component {
   }
 
   //TODO: feedback in case user is already registered
-  //FIXME: hash password!
   async emailPasswordSignUp(event) {
     event.preventDefault();
+    this.setState({ isLoading: true });
     const email = document.getElementById("inputEmail").value;
     const password = document.getElementById("inputPassword").value;
     const passwordRepeat = document.getElementById("inputPasswordRepeat").value;
@@ -59,6 +60,7 @@ class SignUp extends React.Component {
         this.context.signIn(responseCreateUser.data);
         this.props.history.push("/personaldata");
       } catch (err) {
+        this.setState({ isLoading: false });
         console.error(err);
       }
     }
@@ -133,8 +135,19 @@ class SignUp extends React.Component {
                   className="btn signupButton btn-primary"
                   onClick={this.emailPasswordSignUp.bind(this)}
                 >
-                  Sign up
-                </button>
+                {this.state.isLoading ? (
+                  <Fragment>
+                    <span
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Loading...{" "}
+                  </Fragment>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
               </div>
             </div>
             <div className="login-method-separator">OR</div>

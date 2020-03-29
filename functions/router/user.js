@@ -63,7 +63,6 @@ router.post("/signin", async (req, res) => {
         return res.status(500).send();
     } else {
         if (checkResult.doesUserExist) {
-            console.log(checkResult);
             return res.status(200).send(checkResult.id);
         } else {
             //TODO: send proper response

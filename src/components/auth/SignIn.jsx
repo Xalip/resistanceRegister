@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { userContext } from "./../../userContext";
 import axios from "axios";
@@ -10,7 +10,8 @@ class SignIn extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      isLoading: false
     };
 
     this.handleInput = this.handleInput.bind(this);
@@ -19,6 +20,7 @@ class SignIn extends Component {
 
   async logUserInEmail(e) {
     e.preventDefault();
+    this.setState({ isLoading: true });
     try {
       const responseLogUserIn = await axios.post(
         `${
@@ -34,6 +36,7 @@ class SignIn extends Component {
       this.context.signIn(responseLogUserIn.data);
       this.props.history.push("/personaldata");
     } catch (error) {
+      this.setState({ isLoading: false });
       // TODO: user feedback in case login is not working
       console.error(new Error(error));
     }
@@ -108,7 +111,18 @@ class SignIn extends Component {
                 className="btn btn-primary float-right"
                 onClick={this.logUserInEmail}
               >
-                Sign In
+                {this.state.isLoading ? (
+                  <Fragment>
+                    <span
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Loading...{" "}
+                  </Fragment>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </div>
           </form>
