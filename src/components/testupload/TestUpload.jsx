@@ -45,8 +45,8 @@ class TestUpload extends Component {
     componentDidMount() {
         const { user } = this.context;
 
-        if (user.isLoggedIn && user.Id) {
-            axios.get(`${this.baseUrl}/all?userID=${user.Id}`)
+        if (user.isLoggedIn && user.userId) {
+            axios.get(`${this.baseUrl}/all?userID=${user.userId}`)
                 .then((resp) => {
                     this.setState({ results: resp.data });
                 })
@@ -171,43 +171,8 @@ class TestUpload extends Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
-
-        const options = {
-            headers: {
-                'content-type': this.state.imageContentType,
-                'testResult': this.state.result
-            }
-        };
-
-        this.setState({ isUploading: true });
-
         const { user } = this.context;
-        axios.post(`${this.baseUrl}/uploadImage?userID=${user.Id}`, this.state.image, options)
-            .then(e => {
-                this.props.history.push('/overview');
-            })
-            .catch(e => {
-                this.setState({
-                    isUploading: false,
-                    errorMessage: "Could not downloda data, please try again."
-                });
-            });
-    }
 
-    handleSelectionChange(e) {
-        this.setState({ result: e.target.value });
-    }
-
-    handleFileChange(e) {
-        if (e.target.files && e.target.files[0]) {
-            var reader = new FileReader();
-
-            this.setState({ imageLoadingProgressEnabled: true })
-        }
-    }
-
-    handleSubmit(e) {
         e.preventDefault();
 
         const options = {
@@ -218,19 +183,23 @@ class TestUpload extends Component {
         };
 
         this.setState({ isUploading: true });
-
-        const url = `${
-            process.env.NODE_ENV === "production"
-                ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-                : process.env.REACT_APP_BASE_API_LOCAL_URL
-            }/testResult/uploadImage?userID=${this.state.userId}`;
-
-        console.log(url);
-
+    
         axios
-            .post(url, this.state.image, options)
-            .then(e => {
-                this.props.history.push("/overview");
+            .post(`${this.baseUrl}/uploadImage?userID=${user.userId}`, this.state.image, options)
+            .then(resp => {
+                
+                this.setState({ isUploading: false, errorMessage: ""});
+
+                axios.get(`${this.baseUrl}/all?userID=${user.userId}`)
+                .then((resp) => {
+                    this.setState({ results: resp.data });
+                })
+                .catch(e => {
+                    this.setState({
+                        errorMessage: "Could not fetch data, please try again."
+                    });
+                }); 
+
             })
             .catch(e => {
                 this.setState({
