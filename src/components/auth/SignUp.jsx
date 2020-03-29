@@ -38,8 +38,6 @@ class SignUp extends React.Component {
   //FIXME: hash password!
   async emailPasswordSignUp(event) {
     event.preventDefault();
-
-    const { setLoggedIn } = this.context;
     const email = document.getElementById("inputEmail").value;
     const password = document.getElementById("inputPassword").value;
     const passwordRepeat = document.getElementById("inputPasswordRepeat").value;
