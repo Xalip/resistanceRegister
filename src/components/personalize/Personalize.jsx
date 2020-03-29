@@ -77,6 +77,8 @@ class Personalize extends React.Component {
 
     handleSubmit(event) {
         // todo: do required field validation
+        // todo: fix error in console
+        // todo: put to server
         console.log(this.state.occupation.type + " | "
             + this.state.occupation.school + " | "
             + this.state.occupation.job + " | "
