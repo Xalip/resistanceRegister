@@ -1,5 +1,7 @@
 import React from 'react';
 import './Personalize.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
 class Personalize extends React.Component {
 
@@ -74,21 +76,30 @@ class Personalize extends React.Component {
 
     render() {
         return (
-            <div className="form bg-light">
-                <h1>Personalien</h1>
-                <div className="form-content">
-                    <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
-                    <hr />
-                    <form>{this.getOccupationField()}</form>
-                    <hr />
-                    <form>{this.getApprovalFlags().map(field => <div className="form-group">{field}</div>)}</form>
+            <div className="page">
+                <div className="form-wrapper">
+                    <a className="navigate-back" href="/overview">
+                        <h1>
+                        <FontAwesomeIcon size="lg" icon={faArrowAltCircleLeft} />
+                        </h1>
+                    </a>
+                    <div className="form bg-light">
+                        <h1>Personalien</h1>
+                        <div className="form-content">
+                            <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
+                            <hr />
+                            <form>{this.getOccupationField()}</form>
+                            <hr />
+                            <form>{this.getApprovalFlags().map(field => <div className="form-group">{field}</div>)}</form>
+                        </div>
+                        <footer className="form-footer">
+                            <div className="container">
+                                <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Speichern</button>
+                            </div>
+                        </footer>
+                    </div >
                 </div>
-                <footer className="form-footer">
-                    <div className="container">
-                        <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Speichern</button>
-                    </div>
-                </footer>
-            </div >
+            </div>
         );
     }
 
