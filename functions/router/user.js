@@ -83,10 +83,10 @@ router.put("/details", async (req, res) => {
         if (await user.checkUserExists(userID)) {
             return res.sendStatus(await user.update(userID, data));
         } else {
-            res.sendStatus(404);
+           return res.sendStatus(404);
         }
     } else {
-        res.sendStatus(400);
+       return res.sendStatus(400);
     }
 });
 
@@ -110,7 +110,7 @@ router.get("/details", async (req, res) => {
             return res.sendStatus(500);
         }
     } else {
-        res.sendStatus(400);
+      return res.sendStatus(400);
     }
 });
 
