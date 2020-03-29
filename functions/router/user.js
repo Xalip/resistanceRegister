@@ -25,7 +25,6 @@ router.post("/google", async (req, res) => {
             });
             //TODO: send proper response
             return res.status(204).send("User successfully created");
-            console.log(response);
         }
     }
 });
@@ -43,6 +42,11 @@ router.post("/email", async (req, res) => {
     res.status(response.status).send(response.status === 201 ? response.id : "something went wrong");
 })
 
+/**
+ * Express route for uploading and image to the Google Cloud Sotrage
+ * @param {req} req binary stream of the file
+ * @param {req.query.userID} req.query.userID
+ */
 router.post("/uploadResult", async (req, res) => {
     const userID = req.query.userID;
     if (await user.checkUserExists(userID)) {

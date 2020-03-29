@@ -10,7 +10,7 @@ const functions = require("firebase-functions");
 async function uploadFile(id, file) {
     return new Promise((resolve, reject) => {
         if (!file) {
-            reject('No image file');
+            reject(new Error('No image file'));
         }
 
         const bucket = admin.storage().bucket(functions.config().backend.storagebucket);
@@ -26,7 +26,7 @@ async function uploadFile(id, file) {
         // Observe error
         uploadStream.on('error', (error) => {
             console.error(error);
-            reject("Something is wrong! Unable to upload at the moment.");
+            reject(new Error("Something is wrong! Unable to upload at the moment."));
         });
 
         // Upload finished
