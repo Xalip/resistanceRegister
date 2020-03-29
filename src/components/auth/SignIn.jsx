@@ -14,10 +14,10 @@ class SignIn extends Component {
         };
 
         this.handleInput = this.handleInput.bind(this);
-        this.logUserIn = this.logUserIn.bind(this);
+        this.logUserInEmail = this.logUserInEmail.bind(this);
     }
 
-    async logUserIn(e) {
+    async logUserInEmail(e) {
         e.preventDefault()
         try {
             const responseLogUserIn = await axios.post(
@@ -46,7 +46,6 @@ class SignIn extends Component {
                 `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/google`,
                 userData
             );
-            console.log(responseCreateUser);
             this.context.signIn();
         }
     }
@@ -87,7 +86,7 @@ class SignIn extends Component {
                         <div className="mt-5">
                             <Link to="/signUp">Register</Link>
                             <button type="submit"
-                                className="btn btn-primary float-right" onClick={this.logUserIn}>
+                                className="btn btn-primary float-right" onClick={this.logUserInEmail}>
                                 Sign In
                             </button>
                         </div>
