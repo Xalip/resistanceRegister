@@ -28,9 +28,9 @@ class Overview extends React.Component {
     try {
       const response = await axios.get(
         `${
-        process.env.NODE_ENV === "production"
-          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-          : process.env.REACT_APP_BASE_API_LOCAL_URL
+          process.env.NODE_ENV === "production"
+            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+            : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/testResult/all`,
         {
           params: {
@@ -49,7 +49,7 @@ class Overview extends React.Component {
     this.getTestResults().then(function(response) {
       // find the latest result
       console.log(response);
-      if (response.status == 200) {
+      if (response.status == 201) {
         const latest = response.data.reduce(function(r, a) {
           return r.createdAt > a.createdAt ? r : a;
         });
@@ -62,9 +62,9 @@ class Overview extends React.Component {
 
   componentDidMount() {
     var mymap = L.map("oMap").setView([60, -0.09], 4);
-    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+    L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png", {
       attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mymap);
 
     var searchControl = geosearch().addTo(mymap);
@@ -101,7 +101,7 @@ class Overview extends React.Component {
             </div>
             <div>
               {this.state.loading == true
-                ? "...Loading"
+                ? "Pending"
                 : this.state.testResults.result}
             </div>
           </div>
