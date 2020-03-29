@@ -91,22 +91,22 @@ class Personalize extends React.Component {
             <div className="page">
                 <div className="form-wrapper">
                     <a className="navigate-back" href="/overview">
-                        <h1>
-                            <FontAwesomeIcon size="lg" icon={faArrowAltCircleLeft} />
-                        </h1>
+                        <h2>
+                            <FontAwesomeIcon icon={faArrowAltCircleLeft} />
+                        </h2>
                     </a>
                     <div className="form bg-light">
                         <h2>Personalien</h2>
                         <div className="form-content">
-                            <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
+                            <form>{this.getContactFields().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</form>
                             <hr />
                             <form>{this.getOccupationField()}</form>
                             <hr />
-                            <form>{this.getApprovalFlags().map(field => <div className="form-group">{field}</div>)}</form>
+                            <form>{this.getApprovalFlags().map((field, i) => <div className="form-group" key={i}>{field}</div>)}</form>
                         </div>
                         <footer className="form-footer">
                             <div className="container">
-                                <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Speichern</button>
+                                <button type="submit" className="btn btn-primary" onSubmit={this.handleSubmit}>Speichern</button>
                             </div>
                         </footer>
                     </div >
@@ -119,7 +119,7 @@ class Personalize extends React.Component {
         return [
             this.getName(),
             this.getGender(),
-            this.getBirthDay(),
+            this.getDateOfBirth(),
             this.getEmail(),
             this.getPhone(),
             this.getZipCity()
@@ -150,10 +150,10 @@ class Personalize extends React.Component {
         </div>
     }
 
-    getBirthDay() {
+    getDateOfBirth() {
         return <div>
-            <label htmlFor="birthday">Geburtsdatum</label>
-            <input type="date" className="form-control" id="birthday" required value={this.state.dateOfBirth} onChange={this.handleChange}></input>
+            <label htmlFor="dateOfBirth">Geburtsdatum</label>
+            <input type="date" className="form-control" id="dateOfBirth" required value={this.state.dateOfBirth} onChange={this.handleChange}></input>
         </div>
     }
 
