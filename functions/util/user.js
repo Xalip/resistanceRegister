@@ -96,9 +96,8 @@ async function get(userID) {
 
 async function update(userID, data) {
     try {
-        const userCollection = admin.firestore().collection("users");
-        const query = await userCollection.doc(userID).get();
-        return { err: null, data: query.exists ? query.data() : null }
+        const userRef = admin.firestore().collection("users").doc(userID);
+        const result = await userRef.update(data);
     } catch (error) {
         console.error(error);
         return { err: error };

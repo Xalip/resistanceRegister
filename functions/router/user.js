@@ -76,7 +76,7 @@ router.post("/signin", async (req, res) => {
  * @param {req.query.userID} userID for which user you want to set the details
  * @returns statuscode
  */
-router.get("/details", async (req, res) => {
+router.put("/details", async (req, res) => {
     const userID = req.query.userID;
     if (userID) {
         if (await user.checkUserExists(userID)) {
