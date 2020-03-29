@@ -4,8 +4,6 @@ import { userContext } from "./../../userContext";
 import axios from "axios";
 import { GoogleLogin } from "react-google-login";
 
-const userIdMock = "UflZ88AKMqWARRQS0f7W";
-
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -33,8 +31,7 @@ class SignIn extends Component {
           password: this.state.password
         }
       );
-      this.context.signIn(userIdMock);
-
+      this.context.signIn(responseLogUserIn.data);
       this.props.history.push("/personaldata");
     } catch (error) {
       // TODO: user feedback in case login is not working
@@ -56,7 +53,8 @@ class SignIn extends Component {
         }/user/google`,
         userData
       );
-      this.context.signIn(userIdMock);
+      this.context.signIn(responseCreateUser.data);
+      this.props.history.push("/personaldata");
     }
   }
 

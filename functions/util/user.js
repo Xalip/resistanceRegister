@@ -19,7 +19,11 @@ async function checkEmailUserExists(email, password) {
     const collectionUser = admin.firestore().collection("users");
     try {
         const user = await collectionUser.where("email", "==", email).where("password", "==", password).get();
-        return { doesUserExist: !user.empty };
+        let userID = null;
+        if (!user.empty) {
+            user.docs.forEach(user => userID = user.id);
+        }
+        return { doesUserExist: !user.empty, id: userID };
     } catch (err) {
         console.error(new Error(err));
         return { doesUserExist: null, err: err }

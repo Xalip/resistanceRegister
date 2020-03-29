@@ -15,14 +15,13 @@ router.post("/google", async (req, res) => {
         if (checkResult.doesUserExist) {
             return res.status(200).send(checkResult.id);
         } else {
-            const response = await user.createUser({
+            const userCreation = await user.createUser({
                 firstname: userData.givenName,
                 lastname: userData.familyName,
                 email: userData.email,
                 googleId: userData.googleId
             });
-            //TODO: send proper response
-            return res.status(201).send("User successfully created");
+            res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
         }
     }
 });
@@ -31,13 +30,13 @@ router.post("/email", async (req, res) => {
     console.info("Incoming request for creating Email User with the following data");
     const userData = req.body;
     console.log(userData);
-    const response = await user.createUser({
+    const userCreation = await user.createUser({
         firstname: null,
         lastname: null,
         email: userData.email,
         password: userData.password
     });
-    res.status(response.status).send(response.status === 201 ? response.id : "something went wrong");
+    res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
 })
 
 
@@ -55,7 +54,7 @@ router.post("/signin", async (req, res) => {
         return res.status(500).send();
     } else {
         if (checkResult.doesUserExist) {
-            return res.status(202).send();
+            return res.status(200).send(checkResult.id);
         } else {
             //TODO: send proper response
             return res.status(403).send("User does not exist. Please register at first.");
