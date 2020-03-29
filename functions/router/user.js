@@ -36,8 +36,6 @@ router.post("/email", async (req, res) => {
         if(err) {
             res.sendStatus(500);
         }
-        // Store hash of password in DB.
-        console.log("Current Hash: ", hash)
         try {
             const userCreation = await user.createUser({
                 firstname: null,
@@ -65,6 +63,7 @@ router.post("/signin", async (req, res) => {
         return res.status(500).send();
     } else {
         if (checkResult.doesUserExist) {
+            console.log(checkResult);
             return res.status(200).send(checkResult.id);
         } else {
             //TODO: send proper response
