@@ -19,7 +19,7 @@ class Personalize extends React.Component {
             occupationData: {
                 school: "Gymnasium",
             },
-            iWannaHelp: true,
+            iWantToGetContacted: true,
             publishData: true
         };
 
@@ -75,7 +75,7 @@ class Personalize extends React.Component {
     render() {
         return (
             <div className="form bg-light">
-                <h2>Personalien</h2>
+                <h1>Personalien</h1>
                 <div className="form-content">
                     <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
                     <hr />
@@ -119,7 +119,7 @@ class Personalize extends React.Component {
     getGender() {
         return <div>
             <label htmlFor="gender">Geschlecht</label>
-            <select className="form-control" id="gender" required value={this.state.gender} onChange={this.handleOccupationChange}>
+            <select className="form-control" id="gender" required value={this.state.gender} onChange={this.handleChange}>
                 <option value="M">Männlich</option>
                 <option value="W">Weiblich</option>
                 <option value="O">Andere</option>
@@ -217,15 +217,15 @@ class Personalize extends React.Component {
 
     getApprovalFlags() {
         return [
-            this.getIWannaHelp(),
+            this.getIWantToGetContacted(),
             this.getPublishMyData()
         ];
     }
 
-    getIWannaHelp() {
+    getIWantToGetContacted() {
         return <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="iWannaHelp" checked={this.state.iWannaHelp} onChange={this.handleCheckboxChange} />
-            <label className="form-check-label" htmlFor="iWannaHelp">Ich möchte kontaktiert werden</label>
+            <input className="form-check-input" type="checkbox" id="iWantToGetContacted" checked={this.state.iWantToGetContacted} onChange={this.handleCheckboxChange} />
+            <label className="form-check-label" htmlFor="iWantToGetContacted">Ich möchte kontaktiert werden</label>
         </div>
     }
 
