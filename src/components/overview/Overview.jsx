@@ -14,6 +14,7 @@ class Overview extends React.Component {
     super(props);
 
     this.state = {
+      loading: true,
       testResults: null
     };
 
@@ -45,11 +46,19 @@ class Overview extends React.Component {
   }
 
   componentWillMount() {
+    const that = this;
     this.getTestResults().then(function(response) {
       // find the latest result
       console.log(response);
-      for (let i = 0; i < response.data.length; i++) {}
+      if (response.status == 200) {
+        const latest = response.data.reduce(function(r, a) {
+          return r.createdAt > a.createdAt ? r : a;
+        });
+        console.log(latest);
+        that.setState({ loading: false, testResults: latest });
+      }
     });
+    console.log(this.state);
   }
 
   componentDidMount() {
@@ -95,7 +104,11 @@ class Overview extends React.Component {
             <div className="oEdit">
               <FontAwesomeIcon size="lg" icon={faEdit} />
             </div>
-            <div>{this.state.testResults}</div>
+            <div>
+              {this.state.loading == true
+                ? "...Loading"
+                : this.state.testResults.result}
+            </div>
           </div>
         </div>
         <div className="oMap" id="oMap"></div>
