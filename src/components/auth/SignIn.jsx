@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { userContext } from './../../userContext'
 import axios from "axios"
+import { GoogleLogin } from "react-google-login"
 
 class SignIn extends Component {
     constructor(props) {
@@ -37,6 +38,22 @@ class SignIn extends Component {
         }
     }
 
+    async responseGoogleLogin(responseGoogleLogin) {
+        if (responseGoogleLogin.error) {
+            // TODO: user response about error
+            // do nothing, login didnt'work
+        } else {
+            const { setLoggedIn } = this.context
+            const userData = responseGoogleLogin.profileObj;
+            const responseCreateUser = await axios.post(
+                `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/google`,
+                userData
+            );
+            console.log(responseCreateUser);
+            setLoggedIn()
+        }
+    }
+
     static contextType = userContext
 
     render() {
@@ -58,6 +75,17 @@ class SignIn extends Component {
                                 id="password" placeholder="Password"
                                 name="password" value={this.state.password}
                                 onChange={this.handleInput} />
+                        </div>
+                        <div className="login-method-separator">OR</div>
+                        <div>
+                            <GoogleLogin
+                                clientId="497756564991-i12ocg176ekvvvm4dbhigj1otst8com6.apps.googleusercontent.com"
+                                buttonText="Continue with Google"
+                                onSuccess={this.responseGoogleLogin.bind(this)}
+                                onFailure={this.responseGoogleLogin.bind(this)}
+                                cookiePolicy={"single_host_origin"}
+                                className="socialLoginSection"
+                            />
                         </div>
                         <div className="mt-5">
                             <Link to="/signUp">Register</Link>

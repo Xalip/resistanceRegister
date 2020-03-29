@@ -30,7 +30,7 @@ class SignUp extends React.Component {
       console.log(responseCreateUser);
       setLoggedIn()
     }
-  };
+  }
 
   //TODO: feedback in case user is already registered
   //FIXME: hash password!
