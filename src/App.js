@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar"
 import SignUp from "./components/auth/SignUp"
@@ -18,7 +18,7 @@ class App extends React.Component {
         // FIXME: only for dev
         window.app = this
     }
-    
+
     render() {
         return (
             <Router>

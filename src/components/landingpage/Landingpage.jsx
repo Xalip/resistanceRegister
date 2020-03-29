@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "./Landingpage.css";
-import { Link } from "react-router-dom";
 
 function LandingPage() {
   let history = useHistory();

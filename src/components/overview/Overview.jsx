@@ -6,7 +6,6 @@ import { geosearch } from "esri-leaflet-geocoder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import * as mockups from "./OverviewMocks.json";
-import * as geoData from "./GeoDataMocks.json";
 import { userContext } from "./../../userContext";
 
 class Overview extends React.Component {
@@ -28,9 +27,9 @@ class Overview extends React.Component {
     try {
       const response = await axios.get(
         `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+          : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/testResult/all`,
         {
           params: {
@@ -45,10 +44,10 @@ class Overview extends React.Component {
   }
 
   componentWillMount() {
-    this.getTestResults().then(function(response) {
+    this.getTestResults().then(function (response) {
       // find the latest result
       console.log(response);
-      for (let i = 0; i < response.data.length; i++) {}
+      for (let i = 0; i < response.data.length; i++) { }
     });
   }
 
