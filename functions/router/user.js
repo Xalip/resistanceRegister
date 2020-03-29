@@ -33,6 +33,9 @@ router.post("/email", async (req, res) => {
     console.info("Incoming request for creating Email User with the following data")
     const userData = req.body
     bcrypt.hash(userData.password, saltRounds, async (err, hash) => {
+        if(err) {
+            res.sendStatus(500);
+        }
         // Store hash of password in DB.
         console.log("Current Hash: ", hash)
         try {

@@ -32,7 +32,7 @@ async function checkEmailUserExists(email, password) {
             });
         } catch (err) {
             console.error(new Error(err));
-            reject({ doesUserExist: null, err: err });
+            reject(new Error({ doesUserExist: null, err: err }));
         }
 
     })
