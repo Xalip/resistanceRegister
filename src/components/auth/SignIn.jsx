@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { userContext, UserContextProvider } from './../../userContext'
+import { userContext } from './../../userContext'
+import axios from "axios"
 
 class SignIn extends Component {
     constructor(props) {
@@ -12,17 +13,37 @@ class SignIn extends Component {
         }
 
         this.handleInput = this.handleInput.bind(this)
+        this.logUserIn = this.logUserIn.bind(this)
+    }
+
+    async logUserIn(e) {
+        e.preventDefault()
+
+        const { signIn } = this.context
+        try {
+            const responseLogUserIn = await axios.post(
+                `${process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_API_DEPLOY_URL : process.env.REACT_APP_BASE_API_LOCAL_URL}/user/signin`,
+                {
+                    email: this.state.email,
+                    password: this.state.password
+                }
+            );
+            signIn()
+
+            this.props.history.push('/personaldata');
+        } catch (error) {
+            // TODO: user feedback in case login is not working
+            console.error(new Error(error))
+        }
     }
 
     static contextType = userContext
 
     render() {
-        const { setLoggedIn } = this.context
         return (
             <div className="container">
                 <div className="jumbotron bg-white">
                     <h1 className="display-4">Sign In</h1>
-
                     <form className="mt-5">
                         <div className="form-group">
                             <label htmlFor="email">Email address</label>
@@ -38,11 +59,10 @@ class SignIn extends Component {
                                 name="password" value={this.state.password}
                                 onChange={this.handleInput} />
                         </div>
-
                         <div className="mt-5">
                             <Link to="/signUp">Register</Link>
                             <button type="submit"
-                                className="btn btn-primary float-right" onClick={setLoggedIn}>
+                                className="btn btn-primary float-right" onClick={this.logUserIn}>
                                 Sign In
                             </button>
                         </div>

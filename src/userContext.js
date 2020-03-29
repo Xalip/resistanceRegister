@@ -5,24 +5,22 @@ const userContext = React.createContext();
 class UserContextProvider extends React.Component {
     state = {
         user: {
-            isLoggedIn: false,
-            display: "Dunno",
+            isLoggedIn: false
         }
     }
 
-    setLoggedIn = (event) => {
-        event.preventDefault()
-        this.setState({ user: { isLoggedIn: true }, display: "In" })
+    signOut = () => {
+        this.setState({ user: { isLoggedIn: false }})
     }
 
-    signOut = (event) => {
-        event.preventDefault()
-        this.setState({ user: { isLoggedIn: false }, display: "Out" })
+    signIn = () => {
+        this.setState({ user: { isLoggedIn: true }})
+        console.log("Changed LoggedIn State")
     }
 
     render() {
         return (
-            <userContext.Provider value={{ ...this.state, setLoggedIn: this.setLoggedIn }}>
+            <userContext.Provider value={{ ...this.state, signIn: this.signIn }}>
                 {this.props.children}
             </userContext.Provider>
         )
