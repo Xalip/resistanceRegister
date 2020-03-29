@@ -6,7 +6,6 @@ import { geosearch } from "esri-leaflet-geocoder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import * as mockups from "./OverviewMocks.json";
-import * as geoData from "./GeoDataMocks.json";
 import { userContext } from "./../../userContext";
 
 class Overview extends React.Component {
@@ -14,6 +13,7 @@ class Overview extends React.Component {
     super(props);
 
     this.state = {
+      loading: true,
       testResults: null
     };
 
@@ -28,9 +28,9 @@ class Overview extends React.Component {
     try {
       const response = await axios.get(
         `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+          : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/testResult/all`,
         {
           params: {
@@ -45,11 +45,19 @@ class Overview extends React.Component {
   }
 
   componentWillMount() {
+    const that = this;
     this.getTestResults().then(function(response) {
       // find the latest result
       console.log(response);
-      for (let i = 0; i < response.data.length; i++) {}
+      if (response.status == 200) {
+        const latest = response.data.reduce(function(r, a) {
+          return r.createdAt > a.createdAt ? r : a;
+        });
+        console.log(latest);
+        that.setState({ loading: false, testResults: latest });
+      }
     });
+    console.log(this.state);
   }
 
   componentDidMount() {
@@ -71,10 +79,7 @@ class Overview extends React.Component {
     circle.addTo(mymap);
   }
 
-  static contextType = userContext;
   render() {
-    const { isLoggedIn } = this.context.user;
-
     return (
       <div className="oOverview">
         <div className="oCards">
@@ -86,7 +91,6 @@ class Overview extends React.Component {
                 onClick={this.handleEdit}
               />
             </div>
-            <div>{isLoggedIn === true ? "Peter" : "Penis"} Müller </div>
             <div>
               {mockups.contact.firstName} &nbsp; {mockups.contact.lastName}
             </div>
@@ -95,7 +99,11 @@ class Overview extends React.Component {
             <div className="oEdit">
               <FontAwesomeIcon size="lg" icon={faEdit} />
             </div>
-            <div>{this.state.testResults}</div>
+            <div>
+              {this.state.loading == true
+                ? "...Loading"
+                : this.state.testResults.result}
+            </div>
           </div>
         </div>
         <div className="oMap" id="oMap"></div>

@@ -1,19 +1,20 @@
 import React, { Component, Fragment } from "react";
 import "./SignIn.css";
-import { Link } from "react-router-dom";
 import { userContext } from "./../../userContext";
 import axios from "axios";
-import { GoogleLogin } from "react-google-login";
+import { GoogleLogin } from "react-google-login"
+import toaster from "toasted-notes"
+import "toasted-notes/src/styles.css"
 
 class SignIn extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      email: "",
-      password: "",
-      isLoading: false
-    };
+        this.state = {
+            email: "",
+            password: "",
+            isLoading: false
+        };
 
     this.handleInput = this.handleInput.bind(this);
     this.registetButton = this.registetButton.bind(this);
@@ -25,50 +26,54 @@ class SignIn extends Component {
     this.props.history.push("/signUp");
   }
 
-  async logUserInEmail(e) {
-    e.preventDefault();
-    this.setState({ isLoading: true });
-    try {
-      const responseLogUserIn = await axios.post(
-        `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
-        }/user/signin`,
-        {
-          email: this.state.email,
-          password: this.state.password
+    async logUserInEmail(e) {
+        e.preventDefault();
+        this.setState({ isLoading: true });
+        try {
+            const responseLogUserIn = await axios.post(
+                `${
+                process.env.NODE_ENV === "production"
+                    ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+                    : process.env.REACT_APP_BASE_API_LOCAL_URL
+                }/user/signin`,
+                {
+                    email: this.state.email,
+                    password: this.state.password
+                }
+            );
+            this.context.signIn(responseLogUserIn.data);
+            this.props.history.push("/personaldata");
+        } catch (error) {
+            this.setState({ isLoading: false });
+
+            toaster.notify("Please check your credentials", {
+                duration: 3000,
+                position: "top-right"
+            })
+            console.error(new Error(error));
         }
-      );
-      this.context.signIn(responseLogUserIn.data);
-      this.props.history.push("/personaldata");
-    } catch (error) {
-      this.setState({ isLoading: false });
-      // TODO: user feedback in case login is not working
-      console.error(new Error(error));
     }
-  }
 
-  async responseGoogleLogin(responseGoogleLogin) {
-    if (responseGoogleLogin.error) {
-      // TODO: user response about error
-      // do nothing, login didnt'work
-    } else {
-      const userData = responseGoogleLogin.profileObj;
-      const responseCreateUser = await axios.post(
-        `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
-        }/user/google`,
-        userData
-      );
-      this.context.signIn(responseCreateUser.data);
-      this.props.history.push("/personaldata");
+    async responseGoogleLogin(responseGoogleLogin) {
+        if (responseGoogleLogin.error) {
+            // TODO: user response about error
+            // do nothing, login didnt'work
+        } else {
+            const userData = responseGoogleLogin.profileObj;
+            const responseCreateUser = await axios.post(
+                `${
+                process.env.NODE_ENV === "production"
+                    ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+                    : process.env.REACT_APP_BASE_API_LOCAL_URL
+                }/user/google`,
+                userData
+            );
+            this.context.signIn(responseCreateUser.data);
+            this.props.history.push("/personaldata");
+        }
     }
-  }
 
-  static contextType = userContext;
+    static contextType = userContext;
 
   render() {
     return (
@@ -151,9 +156,9 @@ class SignIn extends Component {
     );
   }
 
-  handleInput(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
+    handleInput(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
 }
 
 export default SignIn;
