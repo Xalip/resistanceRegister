@@ -11,6 +11,8 @@ import { userContext } from "./../../userContext";
 class Overview extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   markResistance(rR, mymap) {
@@ -18,6 +20,10 @@ class Overview extends React.Component {
 
     // var circle = new L.circle(latlng, 20, { color: color, opacity: 0.5 });
     // circle.addTo(mymap);
+  }
+
+  handleEdit() {
+    this.props.history.push("/personalData");
   }
 
   componentDidMount() {
@@ -41,7 +47,11 @@ class Overview extends React.Component {
         <div className="oCards">
           <div className="oCard" id="oContact">
             <div className="oEdit">
-              <FontAwesomeIcon size="lg" icon={faEdit} />
+              <FontAwesomeIcon
+                size="lg"
+                icon={faEdit}
+                onClick={this.handleEdit}
+              />
             </div>
             <div>{isLoggedIn === true ? "Peter" : "Penis"} Müller </div>
             <div>
