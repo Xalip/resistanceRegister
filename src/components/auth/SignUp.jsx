@@ -70,11 +70,11 @@ class SignUp extends React.Component {
 
   render() {
     return (
-      <div className="content">
+      <div className="contentRegister">
         <header>
           <div className="title">esistanceRegister</div>
         </header>
-        <div className="maingrid">
+        <div className="maingridRegister">
           <form className="registerForm">
             <div className="form-group">
               <label>Email address</label>
@@ -135,19 +135,19 @@ class SignUp extends React.Component {
                   className="btn signupButton btn-primary"
                   onClick={this.emailPasswordSignUp.bind(this)}
                 >
-                {this.state.isLoading ? (
-                  <Fragment>
-                    <span
-                      className="spinner-border spinner-border-sm"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    Loading...{" "}
-                  </Fragment>
-                ) : (
-                  "Sign In"
-                )}
-              </button>
+                  {this.state.isLoading ? (
+                    <Fragment>
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Loading...{" "}
+                    </Fragment>
+                  ) : (
+                    "Register"
+                  )}
+                </button>
               </div>
             </div>
             <div className="login-method-separator">OR</div>

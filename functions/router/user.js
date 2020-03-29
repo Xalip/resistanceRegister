@@ -24,7 +24,7 @@ router.post("/google", async (req, res) => {
                 email: userData.email,
                 googleId: userData.googleId
             });
-            return res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
+            return res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : userCreation.err);
         }
     }
 });
@@ -42,8 +42,8 @@ router.post("/email", async (req, res) => {
                 lastname: null,
                 email: userData.email,
                 password: hash
-            })
-            res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
+            });
+            res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : userCreation.err);
         } catch (err) {
             res.status(500).send(err)
         }
@@ -58,7 +58,7 @@ router.post("/email", async (req, res) => {
 router.post("/signin", async (req, res) => {
     console.info("Incoming request to login");
     // check whether user exists in db or not
-    const checkResult = await user.checkEmailUserExists(req.body.email, req.body.password);
+    const checkResult = await user.checkUserLogin(req.body.email, req.body.password);
     if (checkResult.err) {
         return res.status(500).send();
     } else {

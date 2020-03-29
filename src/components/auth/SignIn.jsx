@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import "./SignIn.css";
 import { Link } from "react-router-dom";
 import { userContext } from "./../../userContext";
 import axios from "axios";
@@ -15,7 +16,14 @@ class SignIn extends Component {
     };
 
     this.handleInput = this.handleInput.bind(this);
-    this.logUserInEmail = this.logUserInEmail.bind(this);
+    this.registetButton = this.logUserInEmail.bind(this);
+    this.registetButton = this.registetButton.bind(this);
+  }
+
+  registetButton(e) {
+    e.preventDefault();
+    console.error("test");
+    this.props.history.push("/signUp");
   }
 
   async logUserInEmail(e) {
@@ -65,10 +73,12 @@ class SignIn extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="jumbotron bg-white">
-          <h1 className="display-4">Sign In</h1>
-          <form className="mt-5">
+      <div className="contentLogin">
+        <header>
+          <div className="title">esistanceRegister</div>
+        </header>
+        <div className="maingridLogin">
+          <form className="loginForm">
             <div className="form-group">
               <label htmlFor="email">Email address</label>
               <input
@@ -93,6 +103,28 @@ class SignIn extends Component {
                 onChange={this.handleInput}
               />
             </div>
+            <div className="row">
+              <div className="col text-center">
+                <button
+                  type="submit"
+                  className="btn btn-primary loginButton"
+                  onClick={this.logUserInEmail}
+                >
+                  {this.state.isLoading ? (
+                    <Fragment>
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Loading...{" "}
+                    </Fragment>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
+              </div>
+            </div>
             <div className="login-method-separator">OR</div>
             <div>
               <GoogleLogin
@@ -103,27 +135,7 @@ class SignIn extends Component {
                 cookiePolicy={"single_host_origin"}
                 className="socialLoginSection"
               />
-            </div>
-            <div className="mt-5">
               <Link to="/signUp">Register</Link>
-              <button
-                type="submit"
-                className="btn btn-primary float-right"
-                onClick={this.logUserInEmail}
-              >
-                {this.state.isLoading ? (
-                  <Fragment>
-                    <span
-                      className="spinner-border spinner-border-sm"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    Loading...{" "}
-                  </Fragment>
-                ) : (
-                  "Sign In"
-                )}
-              </button>
             </div>
           </form>
         </div>
