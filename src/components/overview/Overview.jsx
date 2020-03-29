@@ -70,10 +70,7 @@ class Overview extends React.Component {
     circle.addTo(mymap);
   }
 
-  static contextType = userContext;
   render() {
-    const { isLoggedIn } = this.context.user;
-
     return (
       <div className="oOverview">
         <div className="oCards">
@@ -85,7 +82,6 @@ class Overview extends React.Component {
                 onClick={this.handleEdit}
               />
             </div>
-            <div>{isLoggedIn === true ? "Peter" : "Penis"} Müller </div>
             <div>
               {mockups.contact.firstName} &nbsp; {mockups.contact.lastName}
             </div>

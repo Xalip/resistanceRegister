@@ -8,7 +8,7 @@ function LandingPage() {
   return (
     <div className="lContent">
       <header>
-        <div className="title">esistance Register</div>
+        <div className="title">esistanceRegister</div>
       </header>
       <div className="maingrid">
         Via ResistanceRegister you can help in the fight against Covid-19 by
