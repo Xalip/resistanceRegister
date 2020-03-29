@@ -15,13 +15,6 @@ class Overview extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
   }
 
-  markResistance(rR, mymap) {
-    for (let i = 0; i < rR.length; i++) {}
-
-    // var circle = new L.circle(latlng, 20, { color: color, opacity: 0.5 });
-    // circle.addTo(mymap);
-  }
-
   handleEdit() {
     this.props.history.push("/personalData");
   }
@@ -35,7 +28,14 @@ class Overview extends React.Component {
 
     var searchControl = geosearch().addTo(mymap);
 
-    this.markResistance(geoData, mymap);
+    var circle = new L.circle([55, 10], 20000, { color: "red", opacity: 0.5 });
+    circle.addTo(mymap);
+    circle = new L.circle([53, 10], 30000, { color: "red", opacity: 0.5 });
+    circle.addTo(mymap);
+    circle = new L.circle([53, 9], 40000, { color: "red", opacity: 0.5 });
+    circle.addTo(mymap);
+    circle = new L.circle([52, 11], 10000, { color: "red", opacity: 0.5 });
+    circle.addTo(mymap);
   }
 
   static contextType = userContext;
