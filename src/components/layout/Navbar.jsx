@@ -41,6 +41,11 @@ export default function Navbar(props) {
               PersonalData
             </Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/overview">
+              Overview
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

@@ -5,14 +5,11 @@ import { geosearch } from "esri-leaflet-geocoder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import * as mockups from "./OverviewMocks.json";
+import { userContext } from './../../userContext'
 
 class Overview extends React.Component {
   constructor(props) {
     super(props);
-    // FIXME:
-    window.overview = this
-
-    this.testFunktion = this.testFunktion.bind(this)
   }
 
   componentDidMount() {
@@ -25,12 +22,10 @@ class Overview extends React.Component {
     var searchControl = geosearch().addTo(mymap);
   }
 
-  testFunktion(value) {
-    console.log(localStorage.getItem("loggedIn"));
-    return localStorage.getItem("loggedIn") == "true"
-  }
-
+  static contextType = userContext
   render() {
+    const { isLoggedIn } = this.context.user
+
     return (
       <div className="oOverview">
         <div className="oCards">
@@ -38,7 +33,7 @@ class Overview extends React.Component {
             <div className="oEdit">
               <FontAwesomeIcon size="lg" icon={faEdit} />
             </div>
-            <div>{this.testFunktion() === true ? "Peter" : "Penis"} Müller </div>
+            <div>{isLoggedIn === true ? "Peter" : "Penis"} Müller </div>
             <div>
               {mockups.contact.firstName} &nbsp; {mockups.contact.lastName}
             </div>

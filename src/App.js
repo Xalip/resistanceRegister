@@ -9,7 +9,8 @@ import LandingPage from "./components/landingpage/Landingpage";
 import Overview from "./components/overview/Overview";
 import TestUpload from "./components/testupload/TestUpload"
 import Personalize from "./components/personalize/Personalize";
-import { userContext } from './userContext';
+import { UserContextProvider } from "./userContext";
+
 
 class App extends React.Component {
     constructor(props) {
@@ -18,15 +19,15 @@ class App extends React.Component {
         window.app = this
         this.state = {
             user: {
-                loggedIn: false
+                isLoggedIn: false
             }
         }
     }
     render() {
         return (
             <Router>
-                <userContext.Provider value={this.state}>
-                    <div className="App">
+                <div className="App">
+                    <UserContextProvider>
                         <Navbar />
                         <div className="wrapper">
                             <Switch >
@@ -38,8 +39,8 @@ class App extends React.Component {
                                 <Route exact path="/personalData" component={Personalize} />
                             </Switch>
                         </div>
-                    </div>
-                </userContext.Provider>
+                    </UserContextProvider>
+                </div>
             </Router >
         )
     }
