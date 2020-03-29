@@ -9,9 +9,9 @@ class UserContextProvider extends React.Component {
         }
     }
 
-    setLoggedIn = (event) => {
-        event.preventDefault()
+    setLoggedIn = () => {
         this.setState({ user: { isLoggedIn: !this.state.user.isLoggedIn } })
+        console.log("Changed LoggedIn State")
     }
 
     render() {
