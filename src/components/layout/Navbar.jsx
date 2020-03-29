@@ -7,9 +7,18 @@ import { userContext } from "./../../userContext";
 export default function Navbar(props) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a className="navbar-brand" href="/#">
-        ResistanceRegister
-      </a>
+      <userContext.Consumer>
+        {({ user, signOut }) => {
+          return (
+            <a
+              className="navbar-brand"
+              href={user.isLoggedIn ? "/overview" : "/#"}
+            >
+              ResistanceRegister
+            </a>
+          );
+        }}
+      </userContext.Consumer>
       <button
         className="navbar-toggler"
         type="button"

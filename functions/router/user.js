@@ -24,7 +24,7 @@ router.post("/google", async (req, res) => {
                 email: userData.email,
                 googleId: userData.googleId
             });
-            return res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
+            return res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : userCreation.err);
         }
     }
 });
@@ -33,7 +33,7 @@ router.post("/email", async (req, res) => {
     console.info("Incoming request for creating Email User with the following data")
     const userData = req.body
     bcrypt.hash(userData.password, saltRounds, async (err, hash) => {
-        if(err) {
+        if (err) {
             res.sendStatus(500);
         }
         try {
@@ -42,8 +42,8 @@ router.post("/email", async (req, res) => {
                 lastname: null,
                 email: userData.email,
                 password: hash
-            })
-            res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : "something went wrong");
+            });
+            res.status(userCreation.status).send(userCreation.status === 201 ? userCreation.id : userCreation.err);
         } catch (err) {
             res.status(500).send(err)
         }
@@ -58,7 +58,7 @@ router.post("/email", async (req, res) => {
 router.post("/signin", async (req, res) => {
     console.info("Incoming request to login");
     // check whether user exists in db or not
-    const checkResult = await user.checkEmailUserExists(req.body.email, req.body.password);
+    const checkResult = await user.checkUserLogin(req.body.email, req.body.password);
     if (checkResult.err) {
         return res.status(500).send();
     } else {
@@ -69,6 +69,54 @@ router.post("/signin", async (req, res) => {
             return res.status(403).send("User does not exist. Please register at first.");
         }
     }
-})
+});
+
+/**
+ * Express for setting details for a given user
+ * @param {req.query.userID} userID for which user you want to set the details
+ * @returns statuscode
+ */
+router.put("/details", async (req, res) => {
+    const userID = req.query.userID;
+    if (userID) {
+        if (await user.checkUserExists(userID)) {
+            if (!userDetail.err) {
+                if (userDetail.data) {
+                    return res.send((await user.get(userID)).data);
+                } {
+                    return res.sendStatus(404);
+                }
+            } else {
+                return res.sendStatus(500);
+            }
+        }
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+
+/**
+ * Express for getting details for a given user
+ * @param {req.query.userID} userID for which user you want to get the details
+ * @returns object user details
+ */
+router.get("/details", async (req, res) => {
+    const userID = req.query.userID;
+    if (userID) {
+        const userDetail = await user.get(userID);
+        if (!userDetail.err) {
+            if (userDetail.data) {
+                return res.send((await user.get(userID)).data);
+            } {
+                return res.sendStatus(404);
+            }
+        } else {
+            return res.sendStatus(500);
+        }
+    } else {
+        res.sendStatus(400);
+    }
+});
 
 module.exports = router;

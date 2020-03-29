@@ -2,8 +2,8 @@ const admin = require("firebase-admin")
 const bcrypt = require('bcrypt')
 
 async function checkGoogleUserExists(accountID) {
-    const collectionUser = admin.firestore().collection("users");
     try {
+        const collectionUser = admin.firestore().collection("users");
         const user = await collectionUser.where("googleId", "==", accountID).get();
         let userID = null;
         if (!user.empty) {
@@ -16,7 +16,7 @@ async function checkGoogleUserExists(accountID) {
     }
 }
 
-async function checkEmailUserExists(email, password) {
+async function checkUserLogin(email, password) {
     return new Promise(async (resolve, reject) => {
         const collectionUser = admin.firestore().collection("users");
         try {
@@ -38,14 +38,21 @@ async function checkEmailUserExists(email, password) {
 }
 
 async function createUser(data) {
-    data.createdAt = new Date().toISOString();
-    const collectionUser = admin.firestore().collection("users");
     try {
-        const user = await collectionUser.add(data);
-        return {
-            status: 201,
-            id: user.id
-        };
+        const collectionUser = admin.firestore().collection("users");
+        data.createdAt = new Date().toISOString();
+        if (!(await checkEmailExists(data.email))) {
+            const user = await collectionUser.add(data);
+            return {
+                status: 201,
+                id: user.id
+            };
+        } else {
+            return {
+                status: 400,
+                err: "Email Address already exists!"
+            }
+        }
     } catch (err) {
         console.error(new Error(err));
         return {
@@ -55,9 +62,20 @@ async function createUser(data) {
     }
 }
 
-async function checkUserExists(userID) {
-    const userCollection = admin.firestore().collection("users");
+async function checkEmailExists(email) {
     try {
+        const userCollection = admin.firestore().collection("users");
+        const query = await userCollection.where("email", "==", email).get();
+        return !query.empty;
+    } catch (err) {
+        console.error(new Error(err));
+        return false;
+    }
+}
+
+async function checkUserExists(userID) {
+    try {
+        const userCollection = admin.firestore().collection("users");
         return (await userCollection.doc(userID).get()).exists
     } catch (err) {
         console.error(new Error(err));
@@ -65,10 +83,32 @@ async function checkUserExists(userID) {
     }
 }
 
+async function get(userID) {
+    try {
+        const userCollection = admin.firestore().collection("users");
+        const query = await userCollection.doc(userID).get();
+        return { err: null, data: query.exists ? query.data() : null }
+    } catch (error) {
+        console.error(error);
+        return { err: error};
+    }
+}
+
+async function update(userID, data) {
+    try {
+        const userRef = admin.firestore().collection("users").doc(userID);
+        const result = await userRef.update(data);
+    } catch (error) {
+        console.error(error);
+        return { err: error };
+    }
+}
+
 
 module.exports = {
     checkGoogleUserExists,
-    createUser,
     checkUserExists,
-    checkEmailUserExists
+    createUser,
+    checkUserLogin,
+    get
 }

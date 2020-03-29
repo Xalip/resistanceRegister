@@ -2,14 +2,13 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import "./Landingpage.css";
-import { Link } from "react-router-dom";
 
 function LandingPage() {
-  let history = useHistory();
+  const history = useHistory();
   return (
     <div className="lContent">
       <header>
-        <div className="title">esistance Register</div>
+        <div className="title">esistanceRegister</div>
       </header>
       <div className="maingrid">
         Via ResistanceRegister you can help in the fight against Covid-19 by

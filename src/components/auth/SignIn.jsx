@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+import "./SignIn.css";
 import { userContext } from "./../../userContext";
 import axios from "axios";
 import { GoogleLogin } from "react-google-login"
@@ -16,9 +16,16 @@ class SignIn extends Component {
             isLoading: false
         };
 
-        this.handleInput = this.handleInput.bind(this);
-        this.logUserInEmail = this.logUserInEmail.bind(this);
-    }
+    this.handleInput = this.handleInput.bind(this);
+    this.registetButton = this.registetButton.bind(this);
+    this.logUserInEmail = this.logUserInEmail.bind(this);
+  }
+
+  registetButton(e) {
+    e.preventDefault();
+    console.error("test");
+    this.props.history.push("/signUp");
+  }
 
     async logUserInEmail(e) {
         e.preventDefault();
@@ -69,73 +76,86 @@ class SignIn extends Component {
 
     static contextType = userContext;
 
-    render() {
-        return (
-            <div className="container">
-                <div className="jumbotron bg-white">
-                    <h1 className="display-4">Sign In</h1>
-                    <form className="mt-5">
-                        <div className="form-group">
-                            <label htmlFor="email">Email address</label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                id="email"
-                                placeholder="Enter email"
-                                name="email"
-                                value={this.state.email}
-                                onChange={this.handleInput}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                id="password"
-                                placeholder="Password"
-                                name="password"
-                                value={this.state.password}
-                                onChange={this.handleInput}
-                            />
-                        </div>
-                        <div className="login-method-separator">OR</div>
-                        <div>
-                            <GoogleLogin
-                                clientId="497756564991-i12ocg176ekvvvm4dbhigj1otst8com6.apps.googleusercontent.com"
-                                buttonText="Continue with Google"
-                                onSuccess={this.responseGoogleLogin.bind(this)}
-                                onFailure={this.responseGoogleLogin.bind(this)}
-                                cookiePolicy={"single_host_origin"}
-                                className="socialLoginSection"
-                            />
-                        </div>
-                        <div className="mt-5">
-                            <Link to="/signUp">Register</Link>
-                            <button
-                                type="submit"
-                                className="btn btn-primary float-right"
-                                onClick={this.logUserInEmail}
-                            >
-                                {this.state.isLoading ? (
-                                    <Fragment>
-                                        <span
-                                            className="spinner-border spinner-border-sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                        ></span>
-                    Loading...{" "}
-                                    </Fragment>
-                                ) : (
-                                        "Sign In"
-                                    )}
-                            </button>
-                        </div>
-                    </form>
-                </div>
+  render() {
+    return (
+      <div className="contentLogin">
+        <header>
+          <div className="title">esistanceRegister</div>
+        </header>
+        <div className="maingridLogin">
+          <form className="loginForm">
+            <div className="form-group">
+              <label htmlFor="email">Email address</label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                placeholder="Enter email"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInput}
+              />
             </div>
-        );
-    }
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleInput}
+              />
+            </div>
+            <div className="row">
+              <div className="col text-center">
+                <button
+                  type="submit"
+                  className="btn btn-primary loginButton"
+                  onClick={this.logUserInEmail}
+                >
+                  {this.state.isLoading ? (
+                    <Fragment>
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Loading...{" "}
+                    </Fragment>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="login-method-separator">OR</div>
+            <div>
+              <div className="row">
+                <div className="col text-center">
+                  <button
+                    className="btn btn-primary registerButton"
+                    onClick={this.registetButton}
+                  >
+                   To Register
+                  </button>
+                </div>
+              </div>
+              <GoogleLogin
+                clientId="497756564991-i12ocg176ekvvvm4dbhigj1otst8com6.apps.googleusercontent.com"
+                buttonText="Continue with Google"
+                onSuccess={this.responseGoogleLogin.bind(this)}
+                onFailure={this.responseGoogleLogin.bind(this)}
+                cookiePolicy={"single_host_origin"}
+                className="socialLoginSection"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
     handleInput(e) {
         this.setState({ [e.target.name]: e.target.value });
