@@ -1,53 +1,37 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import SignedInLinks from "./SignedInLinks";
+import SignedOutLinks from "./SignedOutLinks";
+
+import { userContext } from './../../userContext'
 
 export default function Navbar(props) {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a className="navbar-brand" href="/#">
-        ResistanceRegister
-      </a>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="ResistenceRegister"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
+    return (
+        <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <a className="navbar-brand" href="/#">
+                ResistanceRegister
+            </a>
+            <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="ResistenceRegister">
+                <span className="navbar-toggler-icon"></span>
+            </button>
 
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link className="nav-link" to="/signUp">
-              SignUp
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/signIn">
-              SignIn
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/test/upload">
-              Upload
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/personalData">
-              PersonalData
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/overview">
-              Overview
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  )
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav ml-auto">
+                    <userContext.Consumer>
+                        {({ user }) => (
+                            user.isLoggedIn ?
+                                <SignedInLinks /> :
+                                <SignedOutLinks signOut={user.signOut} />
+                        )}
+                    </userContext.Consumer>
+                </ul>
+            </div>
+        </nav>
+    )
 }
