@@ -5,18 +5,21 @@ const userContext = React.createContext();
 class UserContextProvider extends React.Component {
     state = {
         user: {
-            isLoggedIn: localStorage.getItem("loggedIn") === "true"
+            isLoggedIn: localStorage.getItem("loggedIn") === "true", 
+            userId: localStorage.getItem("userId")
         }
     }
 
     signOut = () => {
         localStorage.setItem("loggedIn", false);
-        this.setState({ user: { isLoggedIn: false }});
+        localStorage.setItem("userId", null);
+        this.setState({ user: { isLoggedIn: false, userData: null }});
     }
 
-    signIn = () => {
+    signIn = (userData) => {
         localStorage.setItem("loggedIn", true);
-        this.setState({ user: { isLoggedIn: true }})
+        localStorage.setItem("userId", userData);
+        this.setState({ user: { isLoggedIn: true, userId: userData }})
     }
 
     render() {

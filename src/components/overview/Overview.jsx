@@ -1,6 +1,7 @@
 import React from "react";
 import "./Overview.css";
 import L from "leaflet";
+import axios from "axios";
 import { geosearch } from "esri-leaflet-geocoder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -12,11 +13,43 @@ class Overview extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      testResults: null
+    };
+
     this.handleEdit = this.handleEdit.bind(this);
   }
 
   handleEdit() {
     this.props.history.push("/personalData");
+  }
+
+  async getTestResults() {
+    try {
+      const response = await axios.get(
+        `${
+          process.env.NODE_ENV === "production"
+            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+            : process.env.REACT_APP_BASE_API_LOCAL_URL
+        }/testResult/all`,
+        {
+          params: {
+            userID: localStorage.getItem("userId")
+          }
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error(new Error(error));
+    }
+  }
+
+  componentWillMount() {
+    this.getTestResults().then(function(response) {
+      // find the latest result
+      console.log(response);
+      for (let i = 0; i < response.data.length; i++) {}
+    });
   }
 
   componentDidMount() {
@@ -62,7 +95,7 @@ class Overview extends React.Component {
             <div className="oEdit">
               <FontAwesomeIcon size="lg" icon={faEdit} />
             </div>
-            <div>{mockups.result.name}</div>
+            <div>{this.state.testResults}</div>
           </div>
         </div>
         <div className="oMap" id="oMap"></div>
