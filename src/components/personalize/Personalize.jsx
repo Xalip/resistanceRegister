@@ -17,9 +17,9 @@ class Personalize extends React.Component {
             phone: "11111111",
             zip: "1000",
             city: "Zürich",
-            occupation: "student",
-            occupationData: {
-                school: "Gymnasium",
+            occupation: {
+                type: "student",
+                school: "gymnasium"
             },
             iWantToGetContacted: true,
             publishData: true
@@ -28,8 +28,8 @@ class Personalize extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOccupationToggle = this.handleOccupationToggle.bind(this);
         this.handleOccupationChange = this.handleOccupationChange.bind(this);
-        this.changeOccupationData = this.changeOccupationData.bind(this);
     }
 
     handleChange(event) {
@@ -42,36 +42,46 @@ class Personalize extends React.Component {
         this.setState({ ...this.state, [id]: checked });
     }
 
-    handleOccupationChange(event) {
-        const occupationValue = event.target.value;
-        this.setState({ occupation: occupationValue })
-        if (occupationValue === "student") {
-            this.setState({
-                occupationData: {
+    handleOccupationToggle(event) {
+        const type = event.target.value;
+        this.setState((state) => ({ occupation: { type: type } }))
+        if (type === "student") {
+            this.setState((state) => ({
+                occupation:
+                {
+                    ...state.occupation,
                     school: ""
                 }
-            });
-        } else if (occupationValue === "self-employed" || occupationValue === "employed") {
-            this.setState({
-                occupationData: {
+            }))
+        } else if (type === "self-employed" || type === "employed") {
+            this.setState((state) => ({
+                occupation: {
+                    ...state.occupation,
                     job: "",
                     company: ""
                 }
-            })
-        } else if (occupationValue === "other") {
-            this.setState({
-                occupationData: {
-                    occupationDescription: ""
+            }))
+        } else if (type === "other") {
+            this.setState((state) => ({
+                occupation: {
+                    ...state.occupation,
+                    description: ""
                 }
-            });
+            }))
         }
     }
 
-    changeOccupationData({ target }) {
-        this.setState({ occupationData: { ...this.state.occupationData, [target.id]: target.value } });
+    handleOccupationChange({ target }) {
+        this.setState({ occupation: { ...this.state.occupation, [target.id]: target.value } });
     }
 
     handleSubmit(event) {
+        // todo: do required field validation
+        console.log(this.state.occupation.type + " | "
+            + this.state.occupation.school + " | "
+            + this.state.occupation.job + " | "
+            + this.state.occupation.company + " | "
+            + this.state.occupation.description)
     }
 
     render() {
@@ -80,11 +90,11 @@ class Personalize extends React.Component {
                 <div className="form-wrapper">
                     <a className="navigate-back" href="/overview">
                         <h1>
-                        <FontAwesomeIcon size="lg" icon={faArrowAltCircleLeft} />
+                            <FontAwesomeIcon size="lg" icon={faArrowAltCircleLeft} />
                         </h1>
                     </a>
                     <div className="form bg-light">
-                        <h1>Personalien</h1>
+                        <h2>Personalien</h2>
                         <div className="form-content">
                             <form>{this.getContactFields().map(field => <div className="form-group">{field}</div>)}</form>
                             <hr />
@@ -154,7 +164,7 @@ class Personalize extends React.Component {
 
     getPhone() {
         return <div>
-            <label htmlFor="phone">Telefon <span className="text-muted">(Optional)</span></label>
+            <label htmlFor="phone">Telefon<span className="text-muted">(Optional)</span></label>
             <input type="tel" className="form-control" id="phone" value={this.state.phone} onChange={this.handleChange}></input>
         </div>
     }
@@ -176,15 +186,15 @@ class Personalize extends React.Component {
         return <div>
             <div className="form-group">
                 <label htmlFor="occupation">Tätigkeit</label>
-                <select className="form-control" id="occupation" required value={this.state.occupation} onChange={this.handleOccupationChange}>
+                <select className="form-control" id="occupation" required value={this.state.occupation.type} onChange={this.handleOccupationToggle}>
                     <option value="student">Schüler(in) / Student(in)</option>
-                    <option value="employed">Berufstätig</option>
+                    <option value="employed">Angestellt</option>
                     <option value="self-employed">Selbständig</option>
                     <option value="retired">Ruhestand</option>
                     <option value="other">Andere</option>
                 </select>
             </div>
-            <div id="occupationContainer" >{this.getOccupationContainer(this.state.occupation)}</div>
+            <div id="occupationContainer" >{this.getOccupationContainer(this.state.occupation.type)}</div>
         </div>
     }
 
@@ -193,7 +203,7 @@ class Personalize extends React.Component {
         if (occupation === "student") {
             dynamicPanel = this.getStudentPanel();
         } else if (occupation === "self-employed" || occupation === "employed") {
-            dynamicPanel = this.getEmployedPanel();
+            dynamicPanel = this.getEmployerPanel(occupation === "employed");
         } else if (occupation === "other") {
             dynamicPanel = this.getOtherPanel();
         }
@@ -203,26 +213,27 @@ class Personalize extends React.Component {
     getStudentPanel() {
         return <div className="form-group">
             <label htmlFor="school">Schule</label>
-            <input type="text" className="form-control" id="school" required value={this.state.occupationData.school} onChange={this.changeOccupationData}></input>
+            <input type="text" className="form-control" id="school" required value={this.state.occupation.school} onChange={this.handleOccupationChange}></input>
         </div>
     }
 
-    getEmployedPanel() {
+    getEmployerPanel(companyRequired) {
+        // todo: add optional label to company field if not required
         return <div className="form-group"><div className="form-group" >
             <label htmlFor="job">Beruf</label>
-            <input type="text" className="form-control" id="job" required value={this.state.occupationData.job} onChange={this.changeOccupationData}></input>
+            <input type="text" className="form-control" id="job" required value={this.state.occupation.job} onChange={this.handleOccupationChange}></input>
         </div>
             <div className="form-group">
                 <label htmlFor="company">Firma</label>
-                <input type="text" className="form-control" id="company" required value={this.state.occupationData.company} onChange={this.changeOccupationData}></input>
+                <input type="text" className="form-control" id="company" required={companyRequired} value={this.state.occupation.company} onChange={this.handleOccupationChange}></input>
             </div>
         </div>
     }
 
     getOtherPanel() {
         return <div className="form-group">
-            <label htmlFor="occupationDescription">Bezeichnung</label>
-            <input type="text" className="form-control" id="occupationDescription" required value={this.state.occupationData.description} onChange={this.changeOccupationData}></input>
+            <label htmlFor="description">Bezeichnung</label>
+            <input type="text" className="form-control" id="description" required value={this.state.occupation.description} onChange={this.handleOccupationChange}></input>
         </div>
     }
 
