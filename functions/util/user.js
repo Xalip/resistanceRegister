@@ -74,9 +74,20 @@ async function checkEmailExists(email) {
     }
 }
 
+async function checkUserExists(userID) {
+    const userCollection = admin.firestore().collection("users");
+    try {
+        return (await userCollection.doc(userID).get()).exists
+    } catch (err) {
+        console.error(new Error(err));
+        return false;
+    }
+}
+
 
 module.exports = {
     checkGoogleUserExists,
+    checkUserExists,
     createUser,
     checkUserLogin
 }
