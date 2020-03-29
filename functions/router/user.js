@@ -38,22 +38,10 @@ router.get("/checkGoogle", async (req, res) => {
     return res.status(typeof checkResult === string ? 500 : 200).send(typeof checkResult === string ? "something went wrong" : checkResult);
 });
 
-
-
-
-
-
-
-router.get("/testResult", async (req, res) => {
-
-});
-
-
 router.post("/testResult", async (req, res) => {
     const userID = req.query.userID;
     if (await user.checkUserExists(userID)) {
-        //FIXME: if
-        if (req) {
+        if (req.body) {
             try {
                 console.log("Uploading file...");
                 //TODO: Promise all insert database entry
