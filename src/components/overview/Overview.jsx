@@ -6,7 +6,6 @@ import { geosearch } from "esri-leaflet-geocoder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import * as mockups from "./OverviewMocks.json";
-import * as geoData from "./GeoDataMocks.json";
 import { userContext } from "./../../userContext";
 
 class Overview extends React.Component {
@@ -29,9 +28,9 @@ class Overview extends React.Component {
     try {
       const response = await axios.get(
         `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+          : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/testResult/all`,
         {
           params: {
@@ -80,10 +79,7 @@ class Overview extends React.Component {
     circle.addTo(mymap);
   }
 
-  static contextType = userContext;
   render() {
-    const { isLoggedIn } = this.context.user;
-
     return (
       <div className="oOverview">
         <div className="oCards">
@@ -95,7 +91,6 @@ class Overview extends React.Component {
                 onClick={this.handleEdit}
               />
             </div>
-            <div>{isLoggedIn === true ? "Peter" : "Penis"} Müller </div>
             <div>
               {mockups.contact.firstName} &nbsp; {mockups.contact.lastName}
             </div>

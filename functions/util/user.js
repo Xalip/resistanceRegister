@@ -1,4 +1,5 @@
-const admin = require("firebase-admin");
+const admin = require("firebase-admin")
+const bcrypt = require('bcrypt')
 
 async function checkGoogleUserExists(accountID) {
     const collectionUser = admin.firestore().collection("users");
@@ -16,14 +17,24 @@ async function checkGoogleUserExists(accountID) {
 }
 
 async function checkEmailUserExists(email, password) {
-    const collectionUser = admin.firestore().collection("users");
-    try {
-        const user = await collectionUser.where("email", "==", email).where("password", "==", password).get();
-        return { doesUserExist: !user.empty };
-    } catch (err) {
-        console.error(new Error(err));
-        return { doesUserExist: null, err: err }
-    }
+    return new Promise(async (resolve, reject) => {
+        const collectionUser = admin.firestore().collection("users");
+        try {
+            const user = await collectionUser.where("email", "==", email).get();
+            user.forEach(async singleUser => {
+                const match = await bcrypt.compare(password, singleUser.data().password);
+                if (match) {
+                    resolve({ doesUserExist: !user.empty, err: null, id: singleUser.id });
+                } else {
+                    resolve({ doesUserExist: user.empty, err: null, id: singleUser.id });
+                }
+            });
+        } catch (err) {
+            console.error(new Error(err));
+            reject(new Error({ doesUserExist: null, err: err }));
+        }
+
+    })
 }
 
 async function createUser(data) {
