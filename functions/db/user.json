@@ -1,21 +1,21 @@
 {
-    "firstname": "Heinz",
-    "lastname": "Musterdude",
+    "firstName": "Heinz",
+    "lastName": "Musterdude",
+    "gender": "M",
+    "dateOfBirth": "2012-04-23",
     "email": "heiz.muster@gaaga.qr",
-    "phonenumber": "004917655555555",
-    "address": {
-        "street": "heinstreet",
-        "number": 5,
-        "zipcode": 76111,
-        "city": "KA City town"
+    "phone": "004917655555555",
+    "zip": 76111,
+    "city": "KA City town",
+    "occupation" : "student",
+    "occupationData": {
+        "school": "Grundschule KA City",
+        "job": null,
+        "employer": null,
+        "occupationDescription": null
     },
-    
-    "occupation": {
-        "business": "student",
-        "location": "Kaiserslautern"
-    },
-    "iWantToHelp": true,
-    "publishProfile": false,
+    "iWantToGetContacted": false,
+    "publishData": false,
     "covidTestResult": [
         {
             "timestamp": "2020-03-27T21:09:47.842Z",
