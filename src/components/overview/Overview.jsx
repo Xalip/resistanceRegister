@@ -2,6 +2,7 @@ import React from "react";
 import "./Overview.css";
 import L from "leaflet";
 import axios from "axios";
+import * as M from "moment";
 import { geosearch } from "esri-leaflet-geocoder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -17,11 +18,7 @@ class Overview extends React.Component {
       testResults: null
     };
 
-    this.handleEdit = this.handleEdit.bind(this);
-  }
-
-  handleEdit() {
-    this.props.history.push("/personalData");
+    this.showTestResults = this.showTestResults.bind(this);
   }
 
   async getTestResults() {
@@ -42,6 +39,21 @@ class Overview extends React.Component {
     } catch (error) {
       console.error(new Error(error));
     }
+  }
+
+  showTestResults() {
+    return (
+      <div>
+        <h2>Test results</h2>
+        <hr color="black" />
+        <div>
+          {M(this.state.testResults.createdAt).format(
+            "dddd, MMMM Do YYYY, h:mm:ss a"
+          )}
+        </div>
+        <div>{this.state.testResults.result}</div>
+      </div>
+    );
   }
 
   componentWillMount() {
@@ -88,7 +100,9 @@ class Overview extends React.Component {
               <FontAwesomeIcon
                 size="lg"
                 icon={faEdit}
-                onClick={this.handleEdit}
+                onClick={() => {
+                  this.props.history.push("/personalData");
+                }}
               />
             </div>
             <div>
@@ -97,12 +111,16 @@ class Overview extends React.Component {
           </div>
           <div className="oCard" id="oResult">
             <div className="oEdit">
-              <FontAwesomeIcon size="lg" icon={faEdit} />
+              <FontAwesomeIcon
+                size="lg"
+                icon={faEdit}
+                onClick={() => {
+                  this.props.history.push("/test/upload");
+                }}
+              />
             </div>
             <div>
-              {this.state.loading == true
-                ? "Pending"
-                : this.state.testResults.result}
+              {this.state.loading == true ? "Pending" : this.showTestResults()}
             </div>
           </div>
         </div>
