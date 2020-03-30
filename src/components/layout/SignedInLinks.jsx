@@ -12,7 +12,7 @@ function SignedInLinks(props) {
       </li>
       <li className="nav-item">
         <NavLink className="nav-link" to="/personalData">
-          PersonalData
+          Personal data
         </NavLink>
       </li>
       <li className="nav-item">
