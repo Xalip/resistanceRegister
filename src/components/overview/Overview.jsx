@@ -33,9 +33,9 @@ class Overview extends React.Component {
     try {
       const response = await axios.get(
         `${
-        process.env.NODE_ENV === "production"
-          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-          : process.env.REACT_APP_BASE_API_LOCAL_URL
+          process.env.NODE_ENV === "production"
+            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+            : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/testResult/all`,
         {
           params: {
@@ -53,9 +53,9 @@ class Overview extends React.Component {
     try {
       const response = await axios.get(
         `${
-        process.env.NODE_ENV === "production"
-          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-          : process.env.REACT_APP_BASE_API_LOCAL_URL
+          process.env.NODE_ENV === "production"
+            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+            : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/user/details`,
         {
           params: {
@@ -74,11 +74,14 @@ class Overview extends React.Component {
       return (
         <div>
           <div>
-            <u>Date of last speedtest</u>: {M(this.state.testResults.object.createdAt).format(
+            <u>Date of last speedtest</u>:{" "}
+            {M(this.state.testResults.object.createdAt).format(
               "dddd, MMMM Do YYYY, h:mm:ss a"
             )}
           </div>
-          <div><u>Last speedtest result</u>: {this.state.testResults.object.result}</div>
+          <div>
+            <u>Last speedtest result</u>: {this.state.testResults.object.result}
+          </div>
         </div>
       );
     }
@@ -98,7 +101,11 @@ class Overview extends React.Component {
               " at " +
               this.state.personalData.object.occupation.school}
           </div>
-          <div>{this.state.personalData.object.city}</div>
+          <div>
+            {this.state.personalData.object.zip +
+              " " +
+              this.state.personalData.object.city}
+          </div>
         </div>
       );
     }
@@ -106,16 +113,16 @@ class Overview extends React.Component {
 
   componentWillMount() {
     const that = this;
-    this.getTestResults().then(function (response) {
+    this.getTestResults().then(function(response) {
       // find the latest result
       if (response.status == 200) {
-        const latest = response.data.reduce(function (r, a) {
+        const latest = response.data.reduce(function(r, a) {
           return r.createdAt > a.createdAt ? r : a;
         });
         that.setState({ testResults: { loading: false, object: latest } });
       }
     });
-    this.getPersonalData().then(function (response) {
+    this.getPersonalData().then(function(response) {
       // store personal data local and rerender
       if (response.status == 200) {
         that.setState({
@@ -171,8 +178,8 @@ class Overview extends React.Component {
                   />
                 </div>
               ) : (
-                  this.showPersonalData()
-                )}
+                this.showPersonalData()
+              )}
             </div>
           </div>
           <div className="oCard" id="oResult">
@@ -198,8 +205,8 @@ class Overview extends React.Component {
                   />
                 </div>
               ) : (
-                  this.showTestResults()
-                )}
+                this.showTestResults()
+              )}
             </div>
           </div>
         </div>
