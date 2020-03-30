@@ -1,14 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import SignedInLinks from "./SignedInLinks";
+import SignedOutLinks from "./SignedOutLinks";
+
+import { userContext } from "./../../userContext";
 
 export default function Navbar(props) {
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="/">
-        ResistanceRegister
-      </a>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <userContext.Consumer>
+        {({ user, signOut }) => {
+          return (
+            <a
+              className="navbar-brand"
+              href={user.isLoggedIn ? "/overview" : "/#"}
+            >
+              ResistanceRegister
+            </a>
+          );
+        }}
+      </userContext.Consumer>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
@@ -16,21 +28,20 @@ export default function Navbar(props) {
         aria-expanded="false"
         aria-label="ResistenceRegister"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <Link class="nav-link" to="/signUp">
-              SignUp
-            </Link>
-          </li>
-          <li class="nav-item">
-            <Link class="nav-link" to="/signIn">
-              SignIn
-            </Link>
-          </li>
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav ml-auto">
+          <userContext.Consumer>
+            {({ user, signOut }) =>
+              user.isLoggedIn ? (
+                <SignedInLinks signOut={signOut} />
+              ) : (
+                <SignedOutLinks />
+              )
+            }
+          </userContext.Consumer>
         </ul>
       </div>
     </nav>

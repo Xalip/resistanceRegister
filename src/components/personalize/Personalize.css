@@ -1,0 +1,27 @@
+.page {
+    max-width: 800px;
+    height: 100%;
+    margin: auto;
+}
+
+.navigate-back {
+    padding: 8px;
+    height: max-content;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.form {
+    width: 100%;
+    padding: 8px;
+}
+
+.form-footer {
+    display: flex;
+    padding-left: 0;
+    padding-right: 0;
+    flex-direction: row-reverse;
+}

@@ -11,17 +11,21 @@
     "deploy:only:backend": "firebase deploy --only functions",
     "deploy:only:frontend": "npm run build:frontend && firebase deploy --only hosting",
     "logs": "firebase functions:log",
-    "deploy:env": "firebase functions:config:set backend='$(cat env.json)'"
+    "deploy:env": "firebase functions:config:set backend='$(cat ./bin/env.json)'",
+    "local:env": "firebase functions:config:get > .runtimeconfig.json"
   },
   "engines": {
     "node": "10"
   },
   "dependencies": {
-    "@google-cloud/logging": "^7.3.0",
+    "@google-cloud/logging": "7.3.0",
+    "@google-cloud/storage": "4.7.0",
+    "bcrypt": "4.0.1",
     "cors": "2.8.5",
     "dotenv": "8.2.0",
     "firebase-admin": "8.6.0",
-    "firebase-functions": "^3.5.0"
+    "firebase-functions": "3.5.0",
+    "uuid4": "1.1.4"
   },
   "devDependencies": {
     "eslint": "5.12.0",
