@@ -17,11 +17,11 @@ class Overview extends React.Component {
     this.state = {
       testResults: {
         loading: false,
-        object: null
+        object: undefined
       },
       personalData: {
         loading: false,
-        object: null
+        object: undefined
       }
     };
 
@@ -70,7 +70,7 @@ class Overview extends React.Component {
   }
 
   showTestResults() {
-    if (this.state.testResults.object != null) {
+    if (this.state.testResults.object != undefined) {
       return (
         <div>
           <div>
@@ -88,23 +88,36 @@ class Overview extends React.Component {
   }
 
   showPersonalData() {
-    if (this.state.personalData.object != null) {
+    console.log(this.state.personalData.object);
+    if (this.state.personalData.object != undefined) {
       return (
         <div>
           <div>
-            {this.state.personalData.object.firstName +
+            {(this.state.personalData.object.firstName == undefined
+              ? ""
+              : this.state.personalData.object.firstName) +
               " " +
-              this.state.personalData.object.lastName}
+              (this.state.personalData.object.lastName == undefined
+                ? ""
+                : this.state.personalData.object.lastName)}
           </div>
+          {this.state.personalData.object.occupation == undefined ? (
+            ""
+          ) : (
+            <div>
+              {this.state.personalData.object.occupation.type +
+                " at " +
+                this.state.personalData.object.occupation.school}
+            </div>
+          )}
           <div>
-            {this.state.personalData.object.occupation.type +
-              " at " +
-              this.state.personalData.object.occupation.school}
-          </div>
-          <div>
-            {this.state.personalData.object.zip +
+            {(this.state.personalData.object.zip == undefined
+              ? ""
+              : this.state.personalData.object.zip) +
               " " +
-              this.state.personalData.object.city}
+              (this.state.personalData.object.city == undefined
+                ? ""
+                : this.state.personalData.object.city)}
           </div>
         </div>
       );
@@ -116,10 +129,12 @@ class Overview extends React.Component {
     this.getTestResults().then(function(response) {
       // find the latest result
       if (response.status == 200) {
-        const latest = response.data.reduce(function(r, a) {
-          return r.createdAt > a.createdAt ? r : a;
-        });
-        that.setState({ testResults: { loading: false, object: latest } });
+        if (response.data.length > 0) {
+          const latest = response.data.reduce(function(r, a) {
+            return r.createdAt > a.createdAt ? r : a;
+          });
+          that.setState({ testResults: { loading: false, object: latest } });
+        }
       }
     });
     this.getPersonalData().then(function(response) {
