@@ -25,9 +25,9 @@ class Overview extends React.Component {
     try {
       const response = await axios.get(
         `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+          : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/testResult/all`,
         {
           params: {
@@ -47,22 +47,22 @@ class Overview extends React.Component {
         <h2>Test results</h2>
         <hr color="black" />
         <div>
-          {M(this.state.testResults.createdAt).format(
+          <u>Date of last speedtest</u>: {M(this.state.testResults.createdAt).format(
             "dddd, MMMM Do YYYY, h:mm:ss a"
           )}
         </div>
-        <div>{this.state.testResults.result}</div>
+        <div><u>Result</u>: {this.state.testResults.result}</div>
       </div>
     );
   }
 
   componentWillMount() {
     const that = this;
-    this.getTestResults().then(function(response) {
+    this.getTestResults().then(function (response) {
       // find the latest result
       console.log(response);
       if (response.status == 200) {
-        const latest = response.data.reduce(function(r, a) {
+        const latest = response.data.reduce(function (r, a) {
           return r.createdAt > a.createdAt ? r : a;
         });
         console.log(latest);
