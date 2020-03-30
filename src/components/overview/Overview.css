@@ -43,7 +43,7 @@
 .oCard:hover {
   background-color: #aad3df;
   border-color: #aad3df;
-  color: white;
+  color: white !important;
   transform: scale(1.02);
 }
 
