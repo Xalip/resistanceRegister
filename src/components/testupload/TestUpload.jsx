@@ -79,7 +79,7 @@ class TestUpload extends Component {
                                         <div className="form-group">
                                             <div className="custom-file">
                                                 <input type="file" className="custom-file-input" id="resultImage" onChange={this.handleFileChange} accept="image/gif, image/jpeg, image/png" />
-                                                <label className="custom-file-label" htmlFor="resultImage">Datei auswählen...</label>
+                                                <label className="custom-file-label" htmlFor="resultImage"> Choose a file...</label>
                                             </div>
                                             <div className="previewImage">
 
@@ -98,7 +98,7 @@ class TestUpload extends Component {
                                         </div>
 
                                         <div className="form-group">
-                                            <label className="form-label" htmlFor="resultSelect">Ergebnis auswählen</label>
+                                            <label className="form-label" htmlFor="resultSelect">Select result</label>
                                             <select className="custom-select"
                                                 defaultValue={this.state.result}
                                                 onChange={this.handleSelectionChange}
@@ -115,7 +115,7 @@ class TestUpload extends Component {
                                                     <Fragment>
                                                         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                     Loading... </Fragment> :
-                                                    "Speichern"
+                                                    "Save"
                                                 }
                                             </button>
                                         </div>
@@ -183,22 +183,22 @@ class TestUpload extends Component {
         };
 
         this.setState({ isUploading: true });
-    
+
         axios
             .post(`${this.baseUrl}/uploadImage?userID=${user.userId}`, this.state.image, options)
             .then(resp => {
-                
-                this.setState({ isUploading: false, errorMessage: ""});
+
+                this.setState({ isUploading: false, errorMessage: "" });
 
                 axios.get(`${this.baseUrl}/all?userID=${user.userId}`)
-                .then((resp) => {
-                    this.setState({ results: resp.data });
-                })
-                .catch(e => {
-                    this.setState({
-                        errorMessage: "Could not fetch data, please try again."
+                    .then((resp) => {
+                        this.setState({ results: resp.data });
+                    })
+                    .catch(e => {
+                        this.setState({
+                            errorMessage: "Could not fetch data, please try again."
+                        });
                     });
-                }); 
 
             })
             .catch(e => {

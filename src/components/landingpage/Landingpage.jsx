@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import "./Landingpage.css";
 
 function LandingPage() {
-  let history = useHistory();
+  const history = useHistory();
   return (
     <div className="lContent">
       <header>

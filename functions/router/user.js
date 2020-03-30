@@ -33,7 +33,7 @@ router.post("/email", async (req, res) => {
     console.info("Incoming request for creating Email User with the following data")
     const userData = req.body
     bcrypt.hash(userData.password, saltRounds, async (err, hash) => {
-        if(err) {
+        if (err) {
             res.sendStatus(500);
         }
         try {
@@ -69,6 +69,49 @@ router.post("/signin", async (req, res) => {
             return res.status(403).send("User does not exist. Please register at first.");
         }
     }
-})
+});
+
+/**
+ * Express for setting details for a given user
+ * @param {req.query.userID} userID for which user you want to set the details
+ * @returns statuscode
+ */
+router.put("/details", async (req, res) => {
+    const userID = req.query.userID;
+    const data = req.body;
+    if (userID && req.body) {
+        if (await user.checkUserExists(userID)) {
+            return res.sendStatus(await user.update(userID, data));
+        } else {
+           return res.sendStatus(404);
+        }
+    } else {
+       return res.sendStatus(400);
+    }
+});
+
+
+/**
+ * Express for getting details for a given user
+ * @param {req.query.userID} userID for which user you want to get the details
+ * @returns object user details
+ */
+router.get("/details", async (req, res) => {
+    const userID = req.query.userID;
+    if (userID) {
+        const userDetail = await user.get(userID);
+        if (!userDetail.err) {
+            if (userDetail.data) {
+                return res.send((await user.get(userID)).data);
+            } {
+                return res.sendStatus(404);
+            }
+        } else {
+            return res.sendStatus(500);
+        }
+    } else {
+      return res.sendStatus(400);
+    }
+});
 
 module.exports = router;
