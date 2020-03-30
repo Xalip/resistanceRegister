@@ -33,9 +33,9 @@ class Overview extends React.Component {
     try {
       const response = await axios.get(
         `${
-          process.env.NODE_ENV === "production"
-            ? process.env.REACT_APP_BASE_API_DEPLOY_URL
-            : process.env.REACT_APP_BASE_API_LOCAL_URL
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_BASE_API_DEPLOY_URL
+          : process.env.REACT_APP_BASE_API_LOCAL_URL
         }/testResult/all`,
         {
           params: {
@@ -106,10 +106,10 @@ class Overview extends React.Component {
 
   componentWillMount() {
     const that = this;
-    this.getTestResults().then(function(response) {
+    this.getTestResults().then(function (response) {
       // find the latest result
       if (response.status == 200) {
-        const latest = response.data.reduce(function(r, a) {
+        const latest = response.data.reduce(function (r, a) {
           return r.createdAt > a.createdAt ? r : a;
         });
         that.setState({ testResults: { loading: false, object: latest } });
