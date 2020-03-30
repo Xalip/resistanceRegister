@@ -49,7 +49,7 @@ class Overview extends React.Component {
     this.getTestResults().then(function(response) {
       // find the latest result
       console.log(response);
-      if (response.status == 201) {
+      if (response.status == 200) {
         const latest = response.data.reduce(function(r, a) {
           return r.createdAt > a.createdAt ? r : a;
         });
@@ -69,9 +69,9 @@ class Overview extends React.Component {
 
     var searchControl = geosearch().addTo(mymap);
 
-    var circle = new L.circle([55, 10], 20000, { color: "red", opacity: 0.5 });
+    let circle = new L.circle([54, 10], 200000, { color: "red", opacity: 0.5 });
     circle.addTo(mymap);
-    circle = new L.circle([53, 10], 30000, { color: "red", opacity: 0.5 });
+    circle = new L.circle([44, 12], 300000, { color: "red", opacity: 0.5 });
     circle.addTo(mymap);
     circle = new L.circle([53, 9], 40000, { color: "red", opacity: 0.5 });
     circle.addTo(mymap);
